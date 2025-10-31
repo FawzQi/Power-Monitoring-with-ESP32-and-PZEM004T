@@ -23,7 +23,7 @@ jobs:
         run: pip install platformio
 
       - name: Build firmware
-        working-directory: esp32
+        working-directory: esp32-program
         run: pio run
 
       - name: Get firmware version
