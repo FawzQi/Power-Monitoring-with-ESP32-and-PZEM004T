@@ -29,7 +29,7 @@ jobs:
       - name: Get firmware version
         id: getver
         run: |
-          VER=$(grep -oP '(?<=-DVERSION=\\").*(?=\\")' platformio.ini)
+          VER=$(grep -oP '(?<=-DVERSION=\\").*(?=\\")' esp32-program/platformio.ini)
           echo "version=$VER" >> $GITHUB_OUTPUT
 
       - name: Copy firmware to /firmware
