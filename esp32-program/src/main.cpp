@@ -3,7 +3,7 @@
 #include <HTTPUpdate.h>
 #include <PZEM004Tv30.h>
 #include <WiFi.h>
-
+#include <WiFiClientSecure.h>
 // ======================
 // Konfigurasi WiFi
 // ======================
@@ -14,7 +14,7 @@ const char* password = "b401juara1";
 // OTA Configuration
 // ======================
 const char* baseUrl = "https://raw.githubusercontent.com/FawzQi/Power-Monitoring-with-ESP32-and-PZEM004T/main/firmware/";
-String currentVersion = "1.0.1";  // versi lokal saat ini
+String currentVersion = "1.0.2";  // versi lokal saat ini
 
 // ======================
 // Konfigurasi PZEM
@@ -47,7 +47,10 @@ void checkForOTAUpdate() {
             Serial.println("⚙️  New version available! Starting OTA update...");
             String firmwareUrl = String(baseUrl) + "firmware_v" + latestVersion + ".bin";
 
-            WiFiClient client;
+            // 🔒 Gunakan WiFiClientSecure agar HTTPS diterima
+            WiFiClientSecure client;
+            client.setInsecure();  // ⚠️ Disable sertifikat agar tidak error
+
             t_httpUpdate_return ret = httpUpdate.update(client, firmwareUrl);
 
             if (ret == HTTP_UPDATE_OK) {
@@ -77,7 +80,7 @@ void setup() {
 
     Serial.println();
     Serial.println("==============================");
-    Serial.println("Starting ESP32 with OTA + PZEM");
+    Serial.println("Starting ESP32 with OTA Update");
     Serial.println("==============================");
 
     // Koneksi WiFi
