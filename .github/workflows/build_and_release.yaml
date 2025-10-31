@@ -5,6 +5,9 @@ on:
     branches:
       - main
   workflow_dispatch:
+  
+permissions:
+  contents: write
 
 jobs:
   build:
@@ -29,13 +32,13 @@ jobs:
       - name: Get firmware version
         id: getver
         run: |
-          VER=$(grep -oP '(?<=-DVERSION=\\").*(?=\\")' platformio.ini)
+          VER=$(grep -oP '(?<=-DVERSION=\\").*(?=\\")' esp32-program/platformio.ini)
           echo "version=$VER" >> $GITHUB_OUTPUT
 
       - name: Copy firmware to /firmware
         run: |
           mkdir -p firmware
-          cp esp32/.pio/build/esp32dev/firmware.bin firmware/firmware_v${{ steps.getver.outputs.version }}.bin
+          cp esp32-program/.pio/build/esp32doit-devkit-v1/firmware.bin firmware/firmware_v${{ steps.getver.outputs.version }}.bin
           echo "${{ steps.getver.outputs.version }}" > firmware/version.txt
 
       - name: Commit and push new firmware
