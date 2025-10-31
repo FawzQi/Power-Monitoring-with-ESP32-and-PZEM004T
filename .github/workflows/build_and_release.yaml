@@ -1,0 +1,47 @@
+name: Build and Release ESP32 Firmware
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: 3.x
+
+      - name: Install PlatformIO
+        run: pip install platformio
+
+      - name: Build firmware
+        working-directory: esp32
+        run: pio run
+
+      - name: Get firmware version
+        id: getver
+        run: |
+          VER=$(grep -oP '(?<=-DVERSION=\\").*(?=\\")' platformio.ini)
+          echo "version=$VER" >> $GITHUB_OUTPUT
+
+      - name: Copy firmware to /firmware
+        run: |
+          mkdir -p firmware
+          cp esp32/.pio/build/esp32dev/firmware.bin firmware/firmware_v${{ steps.getver.outputs.version }}.bin
+          echo "${{ steps.getver.outputs.version }}" > firmware/version.txt
+
+      - name: Commit and push new firmware
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add firmware/
+          git commit -m "Release firmware v${{ steps.getver.outputs.version }}"
+          git push origin main
