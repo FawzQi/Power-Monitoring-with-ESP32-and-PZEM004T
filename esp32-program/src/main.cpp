@@ -7,7 +7,7 @@
 // ======================
 // Konfigurasi WiFi
 // ======================
-const char* ssid = "b401_wiFi";
+const char* ssid = "b401_wifi";
 const char* password = "b401juara1";
 
 // ======================
