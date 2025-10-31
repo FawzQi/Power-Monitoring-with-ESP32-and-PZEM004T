@@ -35,7 +35,7 @@ jobs:
       - name: Copy firmware to /firmware
         run: |
           mkdir -p firmware
-          cp esp32/.pio/build/esp32dev/firmware.bin firmware/firmware_v${{ steps.getver.outputs.version }}.bin
+          cp esp32-program/.pio/build/esp32dev/firmware.bin firmware/firmware_v${{ steps.getver.outputs.version }}.bin
           echo "${{ steps.getver.outputs.version }}" > firmware/version.txt
 
       - name: Commit and push new firmware
