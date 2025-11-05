@@ -39,29 +39,31 @@ jobs:
           VER=$(grep -oP '(?<=-DVERSION=\\").*(?=\\")' esp32-program/platformio.ini)
           echo "version=$VER" >> $GITHUB_OUTPUT
 
-      # 5️⃣ Ambil versi terakhir dari GitHub Releases
+      # 5️⃣ Ambil versi terakhir dari GitHub Releases (jika belum ada → none)
       - name: Get latest release
         id: latest
+        continue-on-error: true
         run: |
-          LATEST=$(curl -s https://api.github.com/repos/${{ github.repository }}/releases/latest | jq -r '.tag_name' || echo "none")
+          LATEST=$(curl -s https://api.github.com/repos/${{ github.repository }}/releases/latest | jq -r '.tag_name')
+          if [[ -z "$LATEST" || "$LATEST" == "null" ]]; then
+            LATEST="none"
+          fi
           echo "latest=$LATEST" >> $GITHUB_OUTPUT
 
-      # 6️⃣ Cek apakah versi baru berbeda dari release terakhir
+      # 6️⃣ Cek apakah versi sama → skip release
       - name: Check version difference
         id: compare
         run: |
-          echo "Current: v${{ steps.getver.outputs.version }}"
-          echo "Latest : ${{ steps.latest.outputs.latest }}"
           if [ "v${{ steps.getver.outputs.version }}" = "${{ steps.latest.outputs.latest }}" ]; then
             echo "same_version=true" >> $GITHUB_OUTPUT
           else
             echo "same_version=false" >> $GITHUB_OUTPUT
           fi
 
-      # 7️⃣ Jika versinya sama → skip release
+      # 7️⃣ Skip log
       - name: Skip release if same version
         if: steps.compare.outputs.same_version == 'true'
-        run: echo "No new version. Skipping release."
+        run: echo "No new version detected. Skipping firmware publish."
 
       # 8️⃣ Upload build artifact (opsional)
       - name: Upload build artifact
@@ -81,7 +83,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      # 🔟 Buat release baru dengan changelog
+      # 🔟 Buat release baru
       - name: Create GitHub Release
         if: steps.compare.outputs.same_version == 'false'
         uses: softprops/action-gh-release@v2
@@ -93,11 +95,13 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      # 1️⃣1️⃣ Upload version.json juga (optional)
+      # 1️⃣1️⃣ Upload version.json
       - name: Upload version.json
         if: steps.compare.outputs.same_version == 'false'
-        run: echo "{\"version\": \"${{ steps.getver.outputs.version }}\"}" > version.json
+        run: |
+          echo "{\"version\": \"${{ steps.getver.outputs.version }}\"}" > version.json
 
+      # 1️⃣2️⃣ Attach version.json ke Release
       - name: Attach version.json to Release
         if: steps.compare.outputs.same_version == 'false'
         uses: softprops/action-gh-release@v2
