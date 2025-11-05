@@ -5,7 +5,7 @@ on:
     branches:
       - main
   workflow_dispatch:
-  
+
 permissions:
   contents: write
 
@@ -14,37 +14,62 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      # Checkout kode
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      # Setup Python dan install PlatformIO
       - name: Setup Python
         uses: actions/setup-python@v5
         with:
-          python-version: 3.x
+          python-version: "3.x"
 
       - name: Install PlatformIO
         run: pip install platformio
 
+      # Build firmware dari folder esp32-program
       - name: Build firmware
         working-directory: esp32-program
         run: pio run
 
+      # Ambil versi dari platformio.ini
       - name: Get firmware version
         id: getver
         run: |
           VER=$(grep -oP '(?<=-DVERSION=\\").*(?=\\")' esp32-program/platformio.ini)
           echo "version=$VER" >> $GITHUB_OUTPUT
 
-      - name: Copy firmware to /firmware
-        run: |
-          mkdir -p firmware
-          cp esp32-program/.pio/build/esp32doit-devkit-v1/firmware.bin firmware/firmware_v${{ steps.getver.outputs.version }}.bin
-          echo "${{ steps.getver.outputs.version }}" > firmware/version.txt
+      # Upload hasil build sebagai artifact (opsional)
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: firmware_v${{ steps.getver.outputs.version }}.bin
+          path: esp32-program/.pio/build/esp32doit-devkit-v1/firmware.bin
 
-      - name: Commit and push new firmware
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add firmware/
-          git commit -m "Release firmware v${{ steps.getver.outputs.version }}"
-          git push origin main
+      # Buat release baru secara otomatis
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v${{ steps.getver.outputs.version }}
+          name: Firmware v${{ steps.getver.outputs.version }}
+          body: |
+            🚀 **ESP32 Firmware Release v${{ steps.getver.outputs.version }}**
+
+            - Build otomatis dari commit: ${{ github.sha }}
+            - Versi: v${{ steps.getver.outputs.version }}
+            - Dibuat otomatis oleh GitHub Actions.
+          files: esp32-program/.pio/build/esp32doit-devkit-v1/firmware.bin
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      # Buat file version.json di release
+      - name: Upload version info
+        run: echo "{\"version\": \"${{ steps.getver.outputs.version }}\"}" > version.json
+
+      - name: Upload version.json to Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v${{ steps.getver.outputs.version }}
+          files: version.json
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
