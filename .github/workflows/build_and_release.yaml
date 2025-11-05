@@ -14,11 +14,11 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # 1️⃣ Checkout kode
+      # Checkout kode
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      # 2️⃣ Setup Python dan PlatformIO
+      # Setup Python dan PlatformIO
       - name: Setup Python
         uses: actions/setup-python@v5
         with:
@@ -27,19 +27,19 @@ jobs:
       - name: Install PlatformIO
         run: pip install platformio
 
-      # 3️⃣ Build firmware dari folder esp32-program
+      # Build firmware dari folder esp32-program
       - name: Build firmware
         working-directory: esp32-program
         run: pio run
 
-      # 4️⃣ Ambil versi dari platformio.ini
+      # Ambil versi dari platformio.ini
       - name: Get firmware version
         id: getver
         run: |
           VER=$(grep -oP '(?<=-DVERSION=\\").*(?=\\")' esp32-program/platformio.ini)
           echo "version=$VER" >> $GITHUB_OUTPUT
 
-      # 5️⃣ Ambil versi terakhir dari GitHub Releases (jika belum ada → none)
+      # Ambil versi terakhir dari GitHub Releases (jika belum ada → none)
       - name: Get latest release
         id: latest
         continue-on-error: true
@@ -50,7 +50,7 @@ jobs:
           fi
           echo "latest=$LATEST" >> $GITHUB_OUTPUT
 
-      # 6️⃣ Cek apakah versi sama → skip release
+      # Cek apakah versi sama → skip release
       - name: Check version difference
         id: compare
         run: |
@@ -60,12 +60,12 @@ jobs:
             echo "same_version=false" >> $GITHUB_OUTPUT
           fi
 
-      # 7️⃣ Skip log
+      # Skip log
       - name: Skip release if same version
         if: steps.compare.outputs.same_version == 'true'
         run: echo "No new version detected. Skipping firmware publish."
 
-      # 8️⃣ Upload build artifact (opsional)
+      # Upload build artifact (opsional)
       - name: Upload build artifact
         if: steps.compare.outputs.same_version == 'false'
         uses: actions/upload-artifact@v4
@@ -73,9 +73,9 @@ jobs:
           name: firmware_v${{ steps.getver.outputs.version }}.bin
           path: esp32-program/.pio/build/esp32doit-devkit-v1/firmware.bin
 
-      # 9️⃣ Generate changelog otomatis
+      # Generate changelog otomatis
       - name: Generate changelog
-        if: steps.compare.outputs.same_version == 'false'
+        if: steps.compare.outputs.same_version == 'false' && steps.latest.outputs.latest != 'none'
         id: changelog
         uses: mikepenz/release-changelog-builder-action@v5
         with:
@@ -83,7 +83,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      # 🔟 Buat release baru
+      # Buat release baru
       - name: Create GitHub Release
         if: steps.compare.outputs.same_version == 'false'
         uses: softprops/action-gh-release@v2
@@ -95,13 +95,13 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      # 1️⃣1️⃣ Upload version.json
+      # Upload version.json
       - name: Upload version.json
         if: steps.compare.outputs.same_version == 'false'
         run: |
           echo "{\"version\": \"${{ steps.getver.outputs.version }}\"}" > version.json
 
-      # 1️⃣2️⃣ Attach version.json ke Release
+      # Attach version.json ke Release
       - name: Attach version.json to Release
         if: steps.compare.outputs.same_version == 'false'
         uses: softprops/action-gh-release@v2
