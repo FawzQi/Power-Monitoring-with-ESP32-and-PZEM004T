@@ -7,7 +7,7 @@
 #include <WiFi.h>
 #include <WiFiClientSecure.h>
 
-#define CURRENT_VERSION "1.1.0"
+#define CURRENT_VERSION "1.1.1"
 
 // ======================
 // Konfigurasi WiFi
@@ -46,9 +46,12 @@ const int readInterval = 2000;  // Interval 2 detik (sama seperti delay Anda)
 // Fungsi OTA Check
 // ======================
 void checkForOTAUpdate() {
+    Serial.print("Current: ");
+    Serial.println(CURRENT_VERSION);
     Serial.println("Checking for OTA updates...");
     String versionUrl = String(baseUrl) + "version.json";
     HTTPClient http;
+    http.setFollowRedirects(HTTPC_STRICT_FOLLOW_REDIRECTS);
     http.begin(versionUrl);
     int httpCode = http.GET();
     if (httpCode == 200) {
@@ -57,8 +60,6 @@ void checkForOTAUpdate() {
         deserializeJson(doc, payload);
         String latestVersion = doc["version"].as<String>();
 
-        Serial.print("Current: ");
-        Serial.println(CURRENT_VERSION);
         Serial.print("Latest: ");
         Serial.println(latestVersion);
 
@@ -69,6 +70,8 @@ void checkForOTAUpdate() {
             WiFiClientSecure client;
             client.setInsecure();
 
+            httpUpdate.rebootOnUpdate(true);
+            httpUpdate.setFollowRedirects(HTTPC_STRICT_FOLLOW_REDIRECTS);  // ✅ penting!
             t_httpUpdate_return ret = httpUpdate.update(client, firmwareUrl);
 
             if (ret == HTTP_UPDATE_OK) {
