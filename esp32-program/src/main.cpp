@@ -7,7 +7,7 @@
 #include <WiFi.h>
 #include <WiFiClientSecure.h>
 
-#define CURRENT_VERSION "1.1.1"
+#define CURRENT_VERSION "1.1.2"
 
 // ======================
 // Konfigurasi WiFi
@@ -19,7 +19,6 @@ const char* password = "paansih7";
 // OTA Configuration
 // ======================
 const char* baseUrl = "https://github.com/FawzQi/Power-Monitoring-with-ESP32-and-PZEM004T/releases/latest/download/";
-// String currentVersion = CURRENT_VERSION;  // versi lokal saat ini
 
 // ======================
 // Konfigurasi PZEM
@@ -74,12 +73,18 @@ void checkForOTAUpdate() {
             httpUpdate.setFollowRedirects(HTTPC_STRICT_FOLLOW_REDIRECTS);  // ✅ penting!
             t_httpUpdate_return ret = httpUpdate.update(client, firmwareUrl);
 
-            if (ret == HTTP_UPDATE_OK) {
-                Serial.println("OTA Update successful!");
-            } else {
-                Serial.printf("OTA Update failed! Error (%d): %s\n",
-                              httpUpdate.getLastError(),
-                              httpUpdate.getLastErrorString().c_str());
+            switch (ret) {
+                case HTTP_UPDATE_FAILED:
+                    Serial.printf("OTA Update failed! Error (%d): %s\n", httpUpdate.getLastError(), httpUpdate.getLastErrorString().c_str());
+                    break;
+
+                case HTTP_UPDATE_NO_UPDATES:
+                    Serial.println("No updates available.");
+                    break;
+
+                case HTTP_UPDATE_OK:
+                    Serial.println("OTA Update successful!");
+                    break;
             }
         } else {
             Serial.println("Firmware is up to date.");
