@@ -1,23 +1,25 @@
 #include <Arduino.h>
+#include <ArduinoJson.h>
 #include <HTTPClient.h>
 #include <HTTPUpdate.h>
 #include <PZEM004Tv30.h>
+#include <PubSubClient.h>
 #include <WiFi.h>
 #include <WiFiClientSecure.h>
-#include <PubSubClient.h>
-#include <ArduinoJson.h>
+
+#define CURRENT_VERSION "1.1.0"
 
 // ======================
 // Konfigurasi WiFi
 // ======================
-const char* ssid = "b401_wifi";
-const char* password = "b401juara1";
+const char* ssid = "realme10";
+const char* password = "paansih7";
 
 // ======================
 // OTA Configuration
 // ======================
-const char* baseUrl = "https://raw.githubusercontent.com/FawzQi/Power-Monitoring-with-ESP32-and-PZEM004T/main/firmware/";
-String currentVersion = "1.0.2";  // versi lokal saat ini
+const char* baseUrl = "https://github.com/FawzQi/Power-Monitoring-with-ESP32-and-PZEM004T/releases/latest/download/";
+// String currentVersion = CURRENT_VERSION;  // versi lokal saat ini
 
 // ======================
 // Konfigurasi PZEM
@@ -29,38 +31,40 @@ PZEM004Tv30 pzem(Serial2);
 #endif
 
 // === TAMBAHAN: Konfigurasi MQTT ===
-const char* mqtt_server = "192.168.200.245"; // ⚠️ GANTI DENGAN IP SERVER LAB ANDA
+const char* mqtt_server = "192.168.200.245";  // ⚠️ GANTI DENGAN IP SERVER LAB ANDA
 const int mqtt_port = 1883;
-const char* mqtt_topic = "lab/pzem/data"; // Topic yang akan di-subscribe Node-RED
+const char* mqtt_topic = "lab/pzem/data";  // Topic yang akan di-subscribe Node-RED
 
 WiFiClient espClient;
 PubSubClient mqttClient(espClient);
 
 // === TAMBAHAN: Timer untuk non-blocking ===
 unsigned long lastRead = 0;
-const int readInterval = 2000; // Interval 2 detik (sama seperti delay Anda)
+const int readInterval = 2000;  // Interval 2 detik (sama seperti delay Anda)
 
 // ======================
 // Fungsi OTA Check
 // ======================
 void checkForOTAUpdate() {
     Serial.println("Checking for OTA updates...");
-
-    String versionUrl = String(baseUrl) + "version.txt";
+    String versionUrl = String(baseUrl) + "version.json";
     HTTPClient http;
     http.begin(versionUrl);
     int httpCode = http.GET();
-
     if (httpCode == 200) {
-        String latestVersion = http.getString();
-        latestVersion.trim();
+        String payload = http.getString();
+        StaticJsonDocument<128> doc;
+        deserializeJson(doc, payload);
+        String latestVersion = doc["version"].as<String>();
 
-        Serial.println("Current version : " + currentVersion);
-        Serial.println("Latest version  : " + latestVersion);
+        Serial.print("Current: ");
+        Serial.println(CURRENT_VERSION);
+        Serial.print("Latest: ");
+        Serial.println(latestVersion);
 
-        if (latestVersion != currentVersion) {
+        if (latestVersion != CURRENT_VERSION) {
             Serial.println("⚙️  New version available! Starting OTA update...");
-            String firmwareUrl = String(baseUrl) + "firmware_v" + latestVersion + ".bin";
+            String firmwareUrl = String(baseUrl) + "firmware.bin";
 
             WiFiClientSecure client;
             client.setInsecure();
@@ -68,9 +72,9 @@ void checkForOTAUpdate() {
             t_httpUpdate_return ret = httpUpdate.update(client, firmwareUrl);
 
             if (ret == HTTP_UPDATE_OK) {
-                Serial.println("✅ OTA Update successful!");
+                Serial.println("OTA Update successful!");
             } else {
-                Serial.printf("❌ OTA Update failed! Error (%d): %s\n",
+                Serial.printf("OTA Update failed! Error (%d): %s\n",
                               httpUpdate.getLastError(),
                               httpUpdate.getLastErrorString().c_str());
             }
@@ -90,7 +94,7 @@ void reconnect_mqtt() {
     while (!mqttClient.connected()) {
         Serial.print("Attempting MQTT connection...");
         // Coba koneksi
-        if (mqttClient.connect("esp32-pzem-client")) { // ID Klien (bisa apa saja)
+        if (mqttClient.connect("esp32-pzem-client")) {  // ID Klien (bisa apa saja)
             Serial.println("connected!");
         } else {
             Serial.print("failed, rc=");
@@ -123,7 +127,6 @@ void setup() {
     Serial.println("\n✅ WiFi Connected!");
     Serial.println("IP Address: " + WiFi.localIP().toString());
 
-
     // Cek OTA update
     checkForOTAUpdate();
 
@@ -141,7 +144,7 @@ void loop() {
     if (!mqttClient.connected()) {
         reconnect_mqtt();
     }
-    mqttClient.loop(); // Wajib dipanggil di loop untuk proses MQTT
+    mqttClient.loop();  // Wajib dipanggil di loop untuk proses MQTT
 
     // === TAMBAHAN: Mengganti delay(2000) dengan timer non-blocking ===
     unsigned long now = millis();
