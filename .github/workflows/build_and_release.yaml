@@ -18,7 +18,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      # Setup Python dan install PlatformIO
+      # Setup Python dan PlatformIO
       - name: Setup Python
         uses: actions/setup-python@v5
         with:
@@ -39,37 +39,74 @@ jobs:
           VER=$(grep -oP '(?<=-DVERSION=\\").*(?=\\")' esp32-program/platformio.ini)
           echo "version=$VER" >> $GITHUB_OUTPUT
 
-      # Upload hasil build sebagai artifact (opsional)
+      # Ambil versi terakhir dari GitHub Releases (jika belum ada → none)
+      - name: Get latest release
+        id: latest
+        continue-on-error: true
+        run: |
+          LATEST=$(curl -s https://api.github.com/repos/${{ github.repository }}/releases/latest | jq -r '.tag_name')
+          if [[ -z "$LATEST" || "$LATEST" == "null" ]]; then
+            LATEST="none"
+          fi
+          echo "latest=$LATEST" >> $GITHUB_OUTPUT
+
+      # Cek apakah versi sama → skip release
+      - name: Check version difference
+        id: compare
+        run: |
+          if [ "v${{ steps.getver.outputs.version }}" = "${{ steps.latest.outputs.latest }}" ]; then
+            echo "same_version=true" >> $GITHUB_OUTPUT
+          else
+            echo "same_version=false" >> $GITHUB_OUTPUT
+          fi
+
+      # Skip log
+      - name: Skip release if same version
+        if: steps.compare.outputs.same_version == 'true'
+        run: echo "No new version detected. Skipping firmware publish."
+
+      # Upload build artifact (opsional)
       - name: Upload build artifact
+        if: steps.compare.outputs.same_version == 'false'
         uses: actions/upload-artifact@v4
         with:
           name: firmware_v${{ steps.getver.outputs.version }}.bin
           path: esp32-program/.pio/build/esp32doit-devkit-v1/firmware.bin
 
-      # Buat release baru secara otomatis
+      # Generate changelog otomatis
+      - name: Generate changelog
+        if: steps.compare.outputs.same_version == 'false' && steps.latest.outputs.latest != 'none'
+        id: changelog
+        uses: mikepenz/release-changelog-builder-action@v5
+        with:
+          configuration: ".github/changelog-config.json"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      # Buat release baru
       - name: Create GitHub Release
+        if: steps.compare.outputs.same_version == 'false'
         uses: softprops/action-gh-release@v2
         with:
           tag_name: v${{ steps.getver.outputs.version }}
           name: Firmware v${{ steps.getver.outputs.version }}
-          body: |
-            🚀 **ESP32 Firmware Release v${{ steps.getver.outputs.version }}**
-
-            - Build otomatis dari commit: ${{ github.sha }}
-            - Versi: v${{ steps.getver.outputs.version }}
-            - Dibuat otomatis oleh GitHub Actions.
+          body: ${{ steps.changelog.outputs.changelog }}
           files: esp32-program/.pio/build/esp32doit-devkit-v1/firmware.bin
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      # Buat file version.json di release
-      - name: Upload version info
-        run: echo "{\"version\": \"${{ steps.getver.outputs.version }}\"}" > version.json
 
-      - name: Upload version.json to Release
+      # Upload version.json
+      - name: Upload version.json
+        if: steps.compare.outputs.same_version == 'false'
+        run: |
+          echo "{\"version\": \"${{ steps.getver.outputs.version }}\"}" > version.json
+
+      # Attach version.json ke Release
+      - name: Attach version.json to Release
+        if: steps.compare.outputs.same_version == 'false'
         uses: softprops/action-gh-release@v2
         with:
           tag_name: v${{ steps.getver.outputs.version }}
           files: version.json
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
