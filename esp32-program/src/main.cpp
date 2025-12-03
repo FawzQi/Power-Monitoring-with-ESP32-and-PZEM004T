@@ -6,7 +6,7 @@
 #include <WiFi.h>
 #include <WiFiClientSecure.h>
 
-#define CURRENT_VERSION "1.2.0"
+#define CURRENT_VERSION "1.2.1"
 
 // ======================
 // Konfigurasi WiFi
@@ -224,7 +224,6 @@ void setup() {
 
     pzemSerial.begin(9600, SERIAL_8N1, 26, 27);  // RX=26, TX=27
     xTaskCreatePinnedToCore(taskPZEM, "PZEM Task", 4096, NULL, 1, NULL, 1);
-    xTaskCreatePinnedToCore(taskPrintPZEM, "Print PZEM Task", 4096, NULL, 1, NULL, 0);
 }
 
 void loop() {
