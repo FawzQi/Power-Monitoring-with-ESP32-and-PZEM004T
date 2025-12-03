@@ -6,7 +6,7 @@
 #include <WiFi.h>
 #include <WiFiClientSecure.h>
 
-#define CURRENT_VERSION "1.2.1"
+#define CURRENT_VERSION "1.2.2"
 
 // ======================
 // Konfigurasi WiFi
@@ -128,12 +128,12 @@ uint16_t crc16(uint8_t* buffer, uint16_t length) {
 // =============== READ ALL (6 registers) ===============
 bool readAllPZEM(uint16_t* out) {
     uint8_t req[8];
-    req[0] = 0x01;  // slave address
-    req[1] = 0x04;  // Read Input Registers
+    req[0] = 0x01;  // slave
+    req[1] = 0x04;  // function code Read Input Registers
     req[2] = 0x00;  // start high
-    req[3] = 0x00;  // start low: register 0x0000
+    req[3] = 0x00;  // start low (0x0000)
     req[4] = 0x00;  // length high
-    req[5] = 0x06;  // read 6 registers
+    req[5] = 0x09;  // read 9 registers !!!
 
     uint16_t crc = crc16(req, 6);
     req[6] = crc & 0xFF;  // CRC low
@@ -143,15 +143,17 @@ bool readAllPZEM(uint16_t* out) {
     delay(30);
 
     uint8_t resp[32];
-    int len = pzemSerial.readBytes(resp, 5 + 6 * 2);  // 5 + (len*2) = 17 bytes
-    if (len < 17) return false;
+    int expected = 5 + 9 * 2;  // 5 header + 18 bytes data = 23 bytes
+
+    int len = pzemSerial.readBytes(resp, expected);
+    if (len < expected) return false;
 
     if (resp[0] != 0x01 || resp[1] != 0x04) return false;
+    if (resp[2] != 18) return false;  // byte count = 18
 
-    // decode 6 register (12 bytes)
-    for (int i = 0; i < 6; i++) {
-        out[i * 2] = resp[3 + i * 2];      // high byte
-        out[i * 2 + 1] = resp[4 + i * 2];  // low byte
+    // decode 9 register (18 bytes)
+    for (int i = 0; i < 9; i++) {
+        out[i] = (resp[3 + i * 2] << 8) | resp[4 + i * 2];
     }
 
     return true;
@@ -161,20 +163,45 @@ QueueHandle_t pzemQueue = xQueueCreate(1, sizeof(PZEMData));
 
 void taskPZEM(void* pvParameters) {
     PZEMData pzemData;
-    uint16_t d[12];
+    uint16_t d[12];  // cukup besar
 
     while (true) {
         if (readAllPZEM(d)) {
-            pzemData.voltage = (d[0] << 8 | d[1]) / 10.0;
-            pzemData.current = (d[2] << 8 | d[3]) / 1000.0;
-            pzemData.power = (d[4] << 8 | d[5]);   // W
-            pzemData.energy = (d[6] << 8 | d[7]);  // Wh
-            pzemData.frequency = (d[8] << 8 | d[9]) / 10.0;
-            pzemData.pf = (d[10] << 8 | d[11]) / 100.0;
+            // Voltage (16-bit)
+            pzemData.voltage = d[0] / 10.0;
+
+            // Current 32-bit
+            uint32_t current_raw = ((uint32_t)d[2] << 16) | d[1];
+            pzemData.current = current_raw / 1000.0;
+
+            // Power 32-bit
+            uint32_t power_raw = ((uint32_t)d[4] << 16) | d[3];
+            pzemData.power = power_raw / 10.0;
+
+            // Energy 32-bit
+            uint32_t energy_raw = ((uint32_t)d[6] << 16) | d[5];
+            pzemData.energy = energy_raw;
+
+            // Frequency (16-bit)
+            pzemData.frequency = d[7] / 10.0;
+
+            // Power Factor (16-bit)
+            pzemData.pf = d[8] / 100.0;
 
             xQueueOverwrite(pzemQueue, &pzemData);
+
+            // Serial.println("PZEM Measurements:");
+            // Serial.printf("Time        : %lu ms\n", millis());
+            // Serial.printf("Voltage     : %.1f V\n", pzemData.voltage);
+            // Serial.printf("Current     : %.3f A\n", pzemData.current);
+            // Serial.printf("Power       : %.1f W\n", pzemData.power);
+            // Serial.printf("Energy      : %.0f Wh\n", pzemData.energy);
+            // Serial.printf("Frequency   : %.1f Hz\n", pzemData.frequency);
+            // Serial.printf("PowerFactor : %.2f\n", pzemData.pf);
+            // Serial.println("---------------------------");
         }
-        vTaskDelay(pdMS_TO_TICKS(50));  // pembacaan realtime 5x per detik
+
+        vTaskDelay(pdMS_TO_TICKS(50));
     }
 }
 
