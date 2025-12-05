@@ -1,84 +1,93 @@
-#include <Arduino.h>
+#include <ArduinoJson.h>
 #include <HTTPClient.h>
 #include <HTTPUpdate.h>
-#include <PZEM004Tv30.h>
+#include <HardwareSerial.h>
+#include <PubSubClient.h>
 #include <WiFi.h>
 #include <WiFiClientSecure.h>
-#include <PubSubClient.h>
-#include <ArduinoJson.h>
+
+#define CURRENT_VERSION "1.2.1"
 
 // ======================
 // Konfigurasi WiFi
 // ======================
-const char* ssid = "b401_wifi";
-const char* password = "b401juara1";
+const char* ssid = "realme10";
+const char* password = "paansih7";
 
 // ======================
 // OTA Configuration
 // ======================
-const char* baseUrl = "https://raw.githubusercontent.com/FawzQi/Power-Monitoring-with-ESP32-and-PZEM004T/main/firmware/";
-String currentVersion = "1.0.2";  // versi lokal saat ini
-
-// ======================
-// Konfigurasi PZEM
-// ======================
-#if defined(ESP32)
-PZEM004Tv30 pzem(Serial2, 16, 17);  // RX=16, TX=17
-#else
-PZEM004Tv30 pzem(Serial2);
-#endif
+const char* baseUrl = "https://github.com/FawzQi/Power-Monitoring-with-ESP32-and-PZEM004T/releases/latest/download/";
 
 // === TAMBAHAN: Konfigurasi MQTT ===
-const char* mqtt_server = "192.168.200.245"; // ⚠️ GANTI DENGAN IP SERVER LAB ANDA
+const char* mqtt_server = "10.134.220.77";  // GANTI DENGAN IP 
 const int mqtt_port = 1883;
-const char* mqtt_topic = "lab/pzem/data"; // Topic yang akan di-subscribe Node-RED
+const char* mqtt_topic = "lab/pzem/data";  // Topic yang akan di-subscribe Node-RED
 
 WiFiClient espClient;
 PubSubClient mqttClient(espClient);
 
-// === TAMBAHAN: Timer untuk non-blocking ===
 unsigned long lastRead = 0;
-const int readInterval = 2000; // Interval 2 detik (sama seperti delay Anda)
+const int readInterval = 2000;  // Interval 2000 ms
 
-// ======================
-// Fungsi OTA Check
-// ======================
+HardwareSerial pzemSerial(2);  // UART2
+
+typedef struct {
+    float voltage;
+    float current;
+    float power;
+    float energy;
+    float frequency;
+    float pf;
+} PZEMData;
+
 void checkForOTAUpdate() {
+    Serial.print("Current: ");
+    Serial.println(CURRENT_VERSION);
     Serial.println("Checking for OTA updates...");
-
-    String versionUrl = String(baseUrl) + "version.txt";
+    String versionUrl = String(baseUrl) + "version.json";
     HTTPClient http;
+    http.setFollowRedirects(HTTPC_STRICT_FOLLOW_REDIRECTS);
     http.begin(versionUrl);
     int httpCode = http.GET();
-
     if (httpCode == 200) {
-        String latestVersion = http.getString();
-        latestVersion.trim();
+        String payload = http.getString();
+        StaticJsonDocument<128> doc;
+        deserializeJson(doc, payload);
+        String latestVersion = doc["version"].as<String>();
 
-        Serial.println("Current version : " + currentVersion);
-        Serial.println("Latest version  : " + latestVersion);
+        Serial.print("Latest: ");
+        Serial.println(latestVersion);
 
-        if (latestVersion != currentVersion) {
+        if (latestVersion != CURRENT_VERSION) {
             Serial.println("⚙️  New version available! Starting OTA update...");
-            String firmwareUrl = String(baseUrl) + "firmware_v" + latestVersion + ".bin";
+            String firmwareUrl = String(baseUrl) + "firmware.bin";
 
             WiFiClientSecure client;
             client.setInsecure();
 
+            httpUpdate.rebootOnUpdate(true);
+            httpUpdate.setFollowRedirects(HTTPC_STRICT_FOLLOW_REDIRECTS);
             t_httpUpdate_return ret = httpUpdate.update(client, firmwareUrl);
 
-            if (ret == HTTP_UPDATE_OK) {
-                Serial.println("✅ OTA Update successful!");
-            } else {
-                Serial.printf("❌ OTA Update failed! Error (%d): %s\n",
-                              httpUpdate.getLastError(),
-                              httpUpdate.getLastErrorString().c_str());
+            switch (ret) {
+                case HTTP_UPDATE_FAILED:
+                    Serial.printf("OTA Update failed! Error (%d): %s\n", httpUpdate.getLastError(), httpUpdate.getLastErrorString().c_str());
+                    break;
+
+                case HTTP_UPDATE_NO_UPDATES:
+                    Serial.println("No updates available.");
+                    break;
+
+                case HTTP_UPDATE_OK:
+                    Serial.println("OTA Update successful!");
+                    break;
             }
         } else {
             Serial.println("Firmware is up to date.");
         }
     } else {
-        Serial.println("⚠️ Failed to fetch version.txt (HTTP code: " + String(httpCode) + ")");
+        Serial.println("Failed to fetch version.txt (HTTP code: " + String(httpCode) + ")");
     }
 
     http.end();
@@ -90,7 +99,7 @@ void reconnect_mqtt() {
     while (!mqttClient.connected()) {
         Serial.print("Attempting MQTT connection...");
         // Coba koneksi
-        if (mqttClient.connect("esp32-pzem-client")) { // ID Klien (bisa apa saja)
+        if (mqttClient.connect("esp32-pzem-client")) {  // ID Klien (bisa apa saja)
             Serial.println("connected!");
         } else {
             Serial.print("failed, rc=");
@@ -101,13 +110,95 @@ void reconnect_mqtt() {
     }
 }
 
-// ======================
-// Setup
-// ======================
+// ================= CRC =================
+uint16_t crc16(uint8_t* buffer, uint16_t length) {
+    uint16_t crc = 0xFFFF;
+    for (uint16_t pos = 0; pos < length; pos++) {
+        crc ^= buffer[pos];
+        for (int i = 0; i < 8; i++) {
+            if (crc & 1)
+                crc = (crc >> 1) ^ 0xA001;
+            else
+                crc >>= 1;
+        }
+    }
+    return crc;
+}
+
+// =============== READ ALL (6 registers) ===============
+bool readAllPZEM(uint16_t* out) {
+    uint8_t req[8];
+    req[0] = 0x01;  // slave address
+    req[1] = 0x04;  // Read Input Registers
+    req[2] = 0x00;  // start high
+    req[3] = 0x00;  // start low: register 0x0000
+    req[4] = 0x00;  // length high
+    req[5] = 0x06;  // read 6 registers
+
+    uint16_t crc = crc16(req, 6);
+    req[6] = crc & 0xFF;  // CRC low
+    req[7] = crc >> 8;    // CRC high
+
+    pzemSerial.write(req, 8);
+    delay(30);
+
+    uint8_t resp[32];
+    int len = pzemSerial.readBytes(resp, 5 + 6 * 2);  // 5 + (len*2) = 17 bytes
+    if (len < 17) return false;
+
+    if (resp[0] != 0x01 || resp[1] != 0x04) return false;
+
+    // decode 6 register (12 bytes)
+    for (int i = 0; i < 6; i++) {
+        out[i * 2] = resp[3 + i * 2];      // high byte
+        out[i * 2 + 1] = resp[4 + i * 2];  // low byte
+    }
+
+    return true;
+}
+
+QueueHandle_t pzemQueue = xQueueCreate(1, sizeof(PZEMData));
+
+void taskPZEM(void* pvParameters) {
+    PZEMData pzemData;
+    uint16_t d[12];
+
+    while (true) {
+        if (readAllPZEM(d)) {
+            pzemData.voltage = (d[0] << 8 | d[1]) / 10.0;
+            pzemData.current = (d[2] << 8 | d[3]) / 1000.0;
+            pzemData.power = (d[4] << 8 | d[5]);   // W
+            pzemData.energy = (d[6] << 8 | d[7]);  // Wh
+            pzemData.frequency = (d[8] << 8 | d[9]) / 10.0;
+            pzemData.pf = (d[10] << 8 | d[11]) / 100.0;
+
+            xQueueOverwrite(pzemQueue, &pzemData);
+        }
+        vTaskDelay(pdMS_TO_TICKS(50));  // pembacaan realtime 5x per detik
+    }
+}
+
+void taskPrintPZEM(void* pvParameters) {
+    PZEMData pzemData;
+
+    while (true) {
+        if (xQueueReceive(pzemQueue, &pzemData, portMAX_DELAY) == pdTRUE) {
+            Serial.println("PZEM Measurements:");
+            Serial.printf("Time        : %lu ms\n", millis());
+            Serial.printf("Voltage     : %.1f V\n", pzemData.voltage);
+            Serial.printf("Current     : %.3f A\n", pzemData.current);
+            Serial.printf("Power       : %.0f W\n", pzemData.power);
+            Serial.printf("Energy      : %.0f Wh\n", pzemData.energy);
+            Serial.printf("Frequency   : %.1f Hz\n", pzemData.frequency);
+            Serial.printf("PowerFactor : %.2f\n", pzemData.pf);
+
+            Serial.println("----------------------");
+        }
+    }
+}
+
 void setup() {
     Serial.begin(115200);
-    delay(1000);
-
     Serial.println();
     Serial.println("==============================");
     Serial.println("Starting ESP32 with OTA Update");
@@ -120,73 +211,72 @@ void setup() {
         Serial.print(".");
         delay(500);
     }
-    Serial.println("\n✅ WiFi Connected!");
-    Serial.println("IP Address: " + WiFi.localIP().toString());
-
+    Serial.println();
+    Serial.println("WiFi connected!");
 
     // Cek OTA update
     checkForOTAUpdate();
 
-    // === TAMBAHAN: Set server MQTT ===
+    // Set server MQTT
     mqttClient.setServer(mqtt_server, mqtt_port);
     Serial.println("Connecting to MQTT Broker...");
     reconnect_mqtt();
+
+    pzemSerial.begin(9600, SERIAL_8N1, 26, 27);  // RX=26, TX=27
+    xTaskCreatePinnedToCore(taskPZEM, "PZEM Task", 4096, NULL, 1, NULL, 1);
+    // xTaskCreatePinnedToCore(taskPrintPZEM, "Print PZEM Task", 4096, NULL, 1, NULL, 0);
 }
 
-// ======================
-// Loop utama: baca data PZEM & Publish MQTT
-// ======================
 void loop() {
     // === TAMBAHAN: Pastikan koneksi MQTT selalu terjaga ===
     if (!mqttClient.connected()) {
         reconnect_mqtt();
     }
-    mqttClient.loop(); // Wajib dipanggil di loop untuk proses MQTT
+    mqttClient.loop();  // Wajib dipanggil di loop untuk proses MQTT
 
-    // === TAMBAHAN: Mengganti delay(2000) dengan timer non-blocking ===
-    unsigned long now = millis();
-    if (now - lastRead > readInterval) {
-        lastRead = now;
+    if (millis() - lastRead > readInterval) {
+        lastRead = millis();
 
-        float voltage = pzem.voltage();
-        float current = pzem.current();
-        float power = pzem.power();
-        float energy = pzem.energy();
-        float frequency = pzem.frequency();
-        float pf = pzem.pf();
-
-        if (isnan(voltage) || isnan(current) || isnan(power) || isnan(energy) || isnan(frequency) || isnan(pf)) {
-            Serial.println("⚠️  Error reading from PZEM sensor!");
-        } else {
-            // Tampilkan di Serial (untuk debugging)
-            Serial.println("📊  PZEM Measurements:");
-            Serial.printf("Voltage: %.2f V\n", voltage);
-            Serial.printf("Current: %.3f A\n", current);
-            Serial.printf("Power: %.2f W\n", power);
-            Serial.printf("Energy: %.3f kWh\n", energy);
-            Serial.printf("Frequency: %.1f Hz\n", frequency);
-            Serial.printf("Power Factor: %.2f\n", pf);
-
-            // === TAMBAHAN: Buat JSON payload ===
-            JsonDocument doc;
-            doc["voltage"] = voltage;
-            doc["current"] = current;
-            doc["power"] = power;
-            doc["energy"] = energy;
-            doc["frequency"] = frequency;
-            doc["power_factor"] = pf;
-
-            char json_payload[256];
-            serializeJson(doc, json_payload);
-
-            // === TAMBAHAN: Publish ke MQTT Broker ===
-            if (mqttClient.publish(mqtt_topic, json_payload)) {
-                Serial.println("✅ MQTT Data Published!");
+        PZEMData pzemData;
+        if (xQueueReceive(pzemQueue, &pzemData, 0) == pdTRUE) {
+            float voltage = pzemData.voltage;
+            float current = pzemData.current;
+            float power = pzemData.power;
+            float energy = pzemData.energy;
+            float frequency = pzemData.frequency;
+            float pf = pzemData.pf;
+            if (isnan(voltage) || isnan(current) || isnan(power) || isnan(energy) || isnan(frequency) || isnan(pf)) {
+                Serial.println("Error reading from PZEM sensor!");
             } else {
-                Serial.println("❌ MQTT Publish Failed!");
+                // Tampilkan di Serial (untuk debugging)
+                Serial.println("PZEM Measurements:");
+                Serial.printf("Voltage: %.2f V\n", voltage);
+                Serial.printf("Current: %.3f A\n", current);
+                Serial.printf("Power: %.2f W\n", power);
+                Serial.printf("Energy: %.3f kWh\n", energy);
+                Serial.printf("Frequency: %.1f Hz\n", frequency);
+                Serial.printf("Power Factor: %.2f\n", pf);
+
+                // === TAMBAHAN: Buat JSON payload ===
+                JsonDocument doc;
+                doc["voltage"] = voltage;
+                doc["current"] = current;
+                doc["power"] = power;
+                doc["energy"] = energy;
+                doc["frequency"] = frequency;
+                doc["power_factor"] = pf;
+
+                char json_payload[256];
+                serializeJson(doc, json_payload);
+
+                // === TAMBAHAN: Publish ke MQTT Broker ===
+                if (mqttClient.publish(mqtt_topic, json_payload)) {
+                    Serial.println("MQTT Data Published!");
+                } else {
+                    Serial.println("MQTT Publish Failed!");
+                }
+                Serial.println();
             }
-            Serial.println();
         }
     }
-    // Hapus delay(2000) dari sini
 }

@@ -1,0 +1,53 @@
+0 verbose cli /usr/local/bin/node /usr/local/bin/npm
+1 info using npm@10.8.2
+2 info using node@v20.19.5
+3 silly config load:file:/usr/local/lib/node_modules/npm/npmrc
+4 silly config load:file:/data/.npmrc
+5 silly config load:file:/usr/src/node-red/.npmrc
+6 silly config load:file:/usr/local/etc/npmrc
+7 verbose title npm install node-red-contrib-prometheus-exporter@1.0.5
+8 verbose argv "install" "--no-audit" "--no-update-notifier" "--no-fund" "--save" "--save-prefix" "~" "--omit" "dev" "--engine-strict" "node-red-contrib-prometheus-exporter@1.0.5"
+9 verbose logfile logs-max:10 dir:/data/.npm/_logs/2025-11-20T07_17_16_688Z-
+10 verbose logfile /data/.npm/_logs/2025-11-20T07_17_16_688Z-debug-0.log
+11 silly packumentCache heap:2197815296 maxSize:549453824 maxEntrySize:274726912
+12 silly logfile done cleaning log files
+13 silly idealTree buildDeps
+14 silly fetch manifest node-red-contrib-prometheus-exporter@1.0.5
+15 silly packumentCache full:https://registry.npmjs.org/node-red-contrib-prometheus-exporter cache-miss
+16 http fetch GET 200 https://registry.npmjs.org/node-red-contrib-prometheus-exporter 1778ms (cache miss)
+17 silly packumentCache full:https://registry.npmjs.org/node-red-contrib-prometheus-exporter set size:undefined disposed:false
+18 silly placeDep ROOT node-red-contrib-prometheus-exporter@1.0.5 OK for: node-red-project@0.0.1 want: 1.0.5
+19 silly fetch manifest prom-client@^13.1.0
+20 silly packumentCache full:https://registry.npmjs.org/prom-client cache-miss
+21 http fetch GET 200 https://registry.npmjs.org/prom-client 97ms (cache miss)
+22 silly packumentCache full:https://registry.npmjs.org/prom-client set size:undefined disposed:false
+23 silly placeDep ROOT prom-client@13.2.0 OK for: node-red-contrib-prometheus-exporter@1.0.5 want: ^13.1.0
+24 silly fetch manifest tdigest@^0.1.1
+25 silly packumentCache full:https://registry.npmjs.org/tdigest cache-miss
+26 http fetch GET 200 https://registry.npmjs.org/tdigest 55ms (cache miss)
+27 silly packumentCache full:https://registry.npmjs.org/tdigest set size:undefined disposed:false
+28 silly placeDep ROOT tdigest@0.1.2 OK for: prom-client@13.2.0 want: ^0.1.1
+29 silly fetch manifest bintrees@1.0.2
+30 silly packumentCache full:https://registry.npmjs.org/bintrees cache-miss
+31 http fetch GET 200 https://registry.npmjs.org/bintrees 69ms (cache miss)
+32 silly packumentCache full:https://registry.npmjs.org/bintrees set size:undefined disposed:false
+33 silly placeDep ROOT bintrees@1.0.2 OK for: tdigest@0.1.2 want: 1.0.2
+34 silly reify moves {}
+35 silly tarball no local data for tdigest@https://registry.npmjs.org/tdigest/-/tdigest-0.1.2.tgz. Extracting by manifest.
+36 silly tarball no local data for bintrees@https://registry.npmjs.org/bintrees/-/bintrees-1.0.2.tgz. Extracting by manifest.
+37 silly tarball no local data for node-red-contrib-prometheus-exporter@https://registry.npmjs.org/node-red-contrib-prometheus-exporter/-/node-red-contrib-prometheus-exporter-1.0.5.tgz. Extracting by manifest.
+38 silly tarball no local data for prom-client@https://registry.npmjs.org/prom-client/-/prom-client-13.2.0.tgz. Extracting by manifest.
+39 http fetch GET 200 https://registry.npmjs.org/tdigest/-/tdigest-0.1.2.tgz 102ms (cache miss)
+40 http fetch GET 200 https://registry.npmjs.org/prom-client/-/prom-client-13.2.0.tgz 184ms (cache miss)
+41 http fetch GET 200 https://registry.npmjs.org/bintrees/-/bintrees-1.0.2.tgz 492ms (cache miss)
+42 http fetch GET 200 https://registry.npmjs.org/node-red-contrib-prometheus-exporter/-/node-red-contrib-prometheus-exporter-1.0.5.tgz 1001ms (cache miss)
+43 silly ADD node_modules/bintrees
+44 silly ADD node_modules/tdigest
+45 silly ADD node_modules/prom-client
+46 silly ADD node_modules/node-red-contrib-prometheus-exporter
+47 verbose cwd /data
+48 verbose os Linux 6.14.0-33-generic
+49 verbose node v20.19.5
+50 verbose npm  v10.8.2
+51 verbose exit 0
+52 info ok
