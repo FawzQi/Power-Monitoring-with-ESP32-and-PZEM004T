@@ -1,0 +1,352 @@
+0 verbose cli /usr/local/bin/node /usr/local/bin/npm
+1 info using npm@10.8.2
+2 info using node@v20.19.5
+3 silly config load:file:/usr/local/lib/node_modules/npm/npmrc
+4 silly config load:file:/data/.npmrc
+5 silly config load:file:/usr/src/node-red/.npmrc
+6 silly config load:file:/usr/local/etc/npmrc
+7 verbose title npm install node-red-contrib-opentelemetry@1.6.3
+8 verbose argv "install" "--no-audit" "--no-update-notifier" "--no-fund" "--save" "--save-prefix" "~" "--omit" "dev" "--engine-strict" "node-red-contrib-opentelemetry@1.6.3"
+9 verbose logfile logs-max:10 dir:/data/.npm/_logs/2025-11-20T07_17_29_526Z-
+10 verbose logfile /data/.npm/_logs/2025-11-20T07_17_29_526Z-debug-0.log
+11 silly packumentCache heap:2197815296 maxSize:549453824 maxEntrySize:274726912
+12 silly logfile done cleaning log files
+13 silly idealTree buildDeps
+14 silly fetch manifest node-red-contrib-opentelemetry@1.6.3
+15 silly packumentCache full:https://registry.npmjs.org/node-red-contrib-opentelemetry cache-miss
+16 http fetch GET 200 https://registry.npmjs.org/node-red-contrib-opentelemetry 791ms (cache miss)
+17 silly packumentCache full:https://registry.npmjs.org/node-red-contrib-opentelemetry set size:undefined disposed:false
+18 silly placeDep ROOT node-red-contrib-opentelemetry@1.6.3 OK for: node-red-project@0.0.1 want: 1.6.3
+19 silly fetch manifest @opentelemetry/api@^1.9.0
+20 silly packumentCache full:https://registry.npmjs.org/@opentelemetry%2fapi cache-miss
+21 silly fetch manifest @opentelemetry/core@^1.18.1
+22 silly packumentCache full:https://registry.npmjs.org/@opentelemetry%2fcore cache-miss
+23 silly fetch manifest @opentelemetry/exporter-prometheus@^0.57.1
+24 silly packumentCache full:https://registry.npmjs.org/@opentelemetry%2fexporter-prometheus cache-miss
+25 silly fetch manifest @opentelemetry/exporter-trace-otlp-http@^0.57.1
+26 silly packumentCache full:https://registry.npmjs.org/@opentelemetry%2fexporter-trace-otlp-http cache-miss
+27 silly fetch manifest @opentelemetry/exporter-trace-otlp-proto@^0.57.1
+28 silly packumentCache full:https://registry.npmjs.org/@opentelemetry%2fexporter-trace-otlp-proto cache-miss
+29 silly fetch manifest @opentelemetry/propagator-b3@^1.30.1
+30 silly packumentCache full:https://registry.npmjs.org/@opentelemetry%2fpropagator-b3 cache-miss
+31 silly fetch manifest @opentelemetry/propagator-jaeger@^1.30.1
+32 silly packumentCache full:https://registry.npmjs.org/@opentelemetry%2fpropagator-jaeger cache-miss
+33 silly fetch manifest @opentelemetry/resources@^1.18.1
+34 silly packumentCache full:https://registry.npmjs.org/@opentelemetry%2fresources cache-miss
+35 silly fetch manifest @opentelemetry/sdk-metrics@^1.30.0
+36 silly packumentCache full:https://registry.npmjs.org/@opentelemetry%2fsdk-metrics cache-miss
+37 silly fetch manifest @opentelemetry/sdk-trace-base@^1.30.0
+38 silly packumentCache full:https://registry.npmjs.org/@opentelemetry%2fsdk-trace-base cache-miss
+39 silly fetch manifest @opentelemetry/semantic-conventions@^1.18.1
+40 silly packumentCache full:https://registry.npmjs.org/@opentelemetry%2fsemantic-conventions cache-miss
+41 silly fetch manifest jmespath@^0.16.0
+42 silly packumentCache full:https://registry.npmjs.org/jmespath cache-miss
+43 silly fetch manifest on-finished@^2.4.1
+44 silly packumentCache full:https://registry.npmjs.org/on-finished cache-miss
+45 http fetch GET 200 https://registry.npmjs.org/on-finished 156ms (cache miss)
+46 silly packumentCache full:https://registry.npmjs.org/on-finished set size:undefined disposed:false
+47 http fetch GET 200 https://registry.npmjs.org/jmespath 165ms (cache miss)
+48 silly packumentCache full:https://registry.npmjs.org/jmespath set size:undefined disposed:false
+49 http fetch GET 200 https://registry.npmjs.org/@opentelemetry%2fexporter-trace-otlp-http 192ms (cache miss)
+50 silly packumentCache full:https://registry.npmjs.org/@opentelemetry%2fexporter-trace-otlp-http set size:undefined disposed:false
+51 http fetch GET 200 https://registry.npmjs.org/@opentelemetry%2fexporter-trace-otlp-proto 208ms (cache miss)
+52 silly packumentCache full:https://registry.npmjs.org/@opentelemetry%2fexporter-trace-otlp-proto set size:undefined disposed:false
+53 http fetch GET 200 https://registry.npmjs.org/@opentelemetry%2fsdk-trace-base 229ms (cache miss)
+54 silly packumentCache full:https://registry.npmjs.org/@opentelemetry%2fsdk-trace-base set size:undefined disposed:false
+55 http fetch GET 200 https://registry.npmjs.org/@opentelemetry%2fsdk-metrics 232ms (cache miss)
+56 silly packumentCache full:https://registry.npmjs.org/@opentelemetry%2fsdk-metrics set size:undefined disposed:false
+57 http fetch GET 200 https://registry.npmjs.org/@opentelemetry%2fapi 253ms (cache miss)
+58 silly packumentCache full:https://registry.npmjs.org/@opentelemetry%2fapi set size:undefined disposed:false
+59 http fetch GET 200 https://registry.npmjs.org/@opentelemetry%2fsemantic-conventions 254ms (cache miss)
+60 silly packumentCache full:https://registry.npmjs.org/@opentelemetry%2fsemantic-conventions set size:undefined disposed:false
+61 http fetch GET 200 https://registry.npmjs.org/@opentelemetry%2fpropagator-b3 260ms (cache miss)
+62 silly packumentCache full:https://registry.npmjs.org/@opentelemetry%2fpropagator-b3 set size:undefined disposed:false
+63 http fetch GET 200 https://registry.npmjs.org/@opentelemetry%2fexporter-prometheus 265ms (cache miss)
+64 silly packumentCache full:https://registry.npmjs.org/@opentelemetry%2fexporter-prometheus set size:undefined disposed:false
+65 http fetch GET 200 https://registry.npmjs.org/@opentelemetry%2fpropagator-jaeger 327ms (cache miss)
+66 silly packumentCache full:https://registry.npmjs.org/@opentelemetry%2fpropagator-jaeger set size:undefined disposed:false
+67 http fetch GET 200 https://registry.npmjs.org/@opentelemetry%2fcore 350ms (cache miss)
+68 silly packumentCache full:https://registry.npmjs.org/@opentelemetry%2fcore set size:undefined disposed:false
+69 http fetch GET 200 https://registry.npmjs.org/@opentelemetry%2fresources 364ms (cache miss)
+70 silly packumentCache full:https://registry.npmjs.org/@opentelemetry%2fresources set size:undefined disposed:false
+71 silly placeDep ROOT @opentelemetry/api@1.9.0 OK for: node-red-contrib-opentelemetry@1.6.3 want: ^1.9.0
+72 silly placeDep ROOT @opentelemetry/core@1.30.1 OK for: node-red-contrib-opentelemetry@1.6.3 want: ^1.18.1
+73 silly placeDep ROOT @opentelemetry/exporter-prometheus@0.57.2 OK for: node-red-contrib-opentelemetry@1.6.3 want: ^0.57.1
+74 silly placeDep ROOT @opentelemetry/exporter-trace-otlp-http@0.57.2 OK for: node-red-contrib-opentelemetry@1.6.3 want: ^0.57.1
+75 silly placeDep ROOT @opentelemetry/exporter-trace-otlp-proto@0.57.2 OK for: node-red-contrib-opentelemetry@1.6.3 want: ^0.57.1
+76 silly placeDep ROOT @opentelemetry/propagator-b3@1.30.1 OK for: node-red-contrib-opentelemetry@1.6.3 want: ^1.30.1
+77 silly placeDep ROOT @opentelemetry/propagator-jaeger@1.30.1 OK for: node-red-contrib-opentelemetry@1.6.3 want: ^1.30.1
+78 silly placeDep ROOT @opentelemetry/resources@1.30.1 OK for: node-red-contrib-opentelemetry@1.6.3 want: ^1.18.1
+79 silly placeDep ROOT @opentelemetry/sdk-metrics@1.30.1 OK for: node-red-contrib-opentelemetry@1.6.3 want: ^1.30.0
+80 silly placeDep ROOT @opentelemetry/sdk-trace-base@1.30.1 OK for: node-red-contrib-opentelemetry@1.6.3 want: ^1.30.0
+81 silly placeDep ROOT @opentelemetry/semantic-conventions@1.38.0 OK for: node-red-contrib-opentelemetry@1.6.3 want: ^1.18.1
+82 silly placeDep ROOT jmespath@0.16.0 OK for: node-red-contrib-opentelemetry@1.6.3 want: ^0.16.0
+83 silly placeDep ROOT on-finished@2.4.1 OK for: node-red-contrib-opentelemetry@1.6.3 want: ^2.4.1
+84 silly fetch manifest @opentelemetry/semantic-conventions@1.28.0
+85 silly packumentCache full:https://registry.npmjs.org/@opentelemetry%2fsemantic-conventions cache-miss
+86 silly fetch manifest @opentelemetry/resources@1.30.1
+87 silly packumentCache full:https://registry.npmjs.org/@opentelemetry%2fresources cache-miss
+88 silly fetch manifest @opentelemetry/sdk-metrics@1.30.1
+89 silly packumentCache full:https://registry.npmjs.org/@opentelemetry%2fsdk-metrics cache-miss
+90 silly fetch manifest @opentelemetry/resources@1.30.1
+91 silly packumentCache full:https://registry.npmjs.org/@opentelemetry%2fresources cache-miss
+92 silly fetch manifest @opentelemetry/sdk-trace-base@1.30.1
+93 silly packumentCache full:https://registry.npmjs.org/@opentelemetry%2fsdk-trace-base cache-miss
+94 silly fetch manifest @opentelemetry/otlp-transformer@0.57.2
+95 silly packumentCache full:https://registry.npmjs.org/@opentelemetry%2fotlp-transformer cache-miss
+96 silly fetch manifest @opentelemetry/otlp-exporter-base@0.57.2
+97 silly packumentCache full:https://registry.npmjs.org/@opentelemetry%2fotlp-exporter-base cache-miss
+98 silly fetch manifest @opentelemetry/resources@1.30.1
+99 silly packumentCache full:https://registry.npmjs.org/@opentelemetry%2fresources cache-miss
+100 silly fetch manifest @opentelemetry/sdk-trace-base@1.30.1
+101 silly packumentCache full:https://registry.npmjs.org/@opentelemetry%2fsdk-trace-base cache-miss
+102 silly fetch manifest @opentelemetry/otlp-transformer@0.57.2
+103 silly packumentCache full:https://registry.npmjs.org/@opentelemetry%2fotlp-transformer cache-miss
+104 silly fetch manifest @opentelemetry/otlp-exporter-base@0.57.2
+105 silly packumentCache full:https://registry.npmjs.org/@opentelemetry%2fotlp-exporter-base cache-miss
+106 silly fetch manifest @opentelemetry/semantic-conventions@1.28.0
+107 silly packumentCache full:https://registry.npmjs.org/@opentelemetry%2fsemantic-conventions cache-miss
+108 silly fetch manifest @opentelemetry/semantic-conventions@1.28.0
+109 silly packumentCache full:https://registry.npmjs.org/@opentelemetry%2fsemantic-conventions cache-miss
+110 silly fetch manifest ee-first@1.1.1
+111 silly packumentCache full:https://registry.npmjs.org/ee-first cache-miss
+112 http fetch GET 200 https://registry.npmjs.org/@opentelemetry%2fsdk-metrics 23ms (cache hit)
+113 silly packumentCache full:https://registry.npmjs.org/@opentelemetry%2fsdk-metrics set size:153363 disposed:false
+114 http fetch GET 200 https://registry.npmjs.org/@opentelemetry%2fsemantic-conventions 25ms (cache hit)
+115 silly packumentCache full:https://registry.npmjs.org/@opentelemetry%2fsemantic-conventions set size:411302 disposed:false
+116 http fetch GET 200 https://registry.npmjs.org/@opentelemetry%2fresources 27ms (cache hit)
+117 silly packumentCache full:https://registry.npmjs.org/@opentelemetry%2fresources set size:693840 disposed:false
+118 http fetch GET 200 https://registry.npmjs.org/@opentelemetry%2fresources 31ms (cache hit)
+119 silly packumentCache full:https://registry.npmjs.org/@opentelemetry%2fresources set size:693840 disposed:false
+120 silly packumentCache full:https://registry.npmjs.org/@opentelemetry%2fresources dispose
+121 http fetch GET 200 https://registry.npmjs.org/@opentelemetry%2fresources 35ms (cache hit)
+122 silly packumentCache full:https://registry.npmjs.org/@opentelemetry%2fresources set size:693840 disposed:true
+123 silly packumentCache full:https://registry.npmjs.org/@opentelemetry%2fresources dispose
+124 http fetch GET 200 https://registry.npmjs.org/@opentelemetry%2fsdk-trace-base 37ms (cache hit)
+125 silly packumentCache full:https://registry.npmjs.org/@opentelemetry%2fsdk-trace-base set size:295591 disposed:false
+126 http fetch GET 200 https://registry.npmjs.org/@opentelemetry%2fsdk-trace-base 42ms (cache hit)
+127 silly packumentCache full:https://registry.npmjs.org/@opentelemetry%2fsdk-trace-base set size:295591 disposed:false
+128 silly packumentCache full:https://registry.npmjs.org/@opentelemetry%2fsdk-trace-base dispose
+129 http fetch GET 200 https://registry.npmjs.org/@opentelemetry%2fsemantic-conventions 41ms (cache hit)
+130 silly packumentCache full:https://registry.npmjs.org/@opentelemetry%2fsemantic-conventions set size:411302 disposed:false
+131 silly packumentCache full:https://registry.npmjs.org/@opentelemetry%2fsemantic-conventions dispose
+132 http fetch GET 200 https://registry.npmjs.org/@opentelemetry%2fsemantic-conventions 45ms (cache hit)
+133 silly packumentCache full:https://registry.npmjs.org/@opentelemetry%2fsemantic-conventions set size:411302 disposed:true
+134 silly packumentCache full:https://registry.npmjs.org/@opentelemetry%2fsemantic-conventions dispose
+135 http fetch GET 200 https://registry.npmjs.org/ee-first 51ms (cache miss)
+136 silly packumentCache full:https://registry.npmjs.org/ee-first set size:undefined disposed:false
+137 http fetch GET 200 https://registry.npmjs.org/@opentelemetry%2fotlp-transformer 78ms (cache miss)
+138 silly packumentCache full:https://registry.npmjs.org/@opentelemetry%2fotlp-transformer set size:undefined disposed:false
+139 http fetch GET 200 https://registry.npmjs.org/@opentelemetry%2fotlp-exporter-base 92ms (cache miss)
+140 silly packumentCache full:https://registry.npmjs.org/@opentelemetry%2fotlp-exporter-base set size:undefined disposed:false
+141 http fetch GET 200 https://registry.npmjs.org/@opentelemetry%2fotlp-exporter-base 99ms (cache miss)
+142 silly packumentCache full:https://registry.npmjs.org/@opentelemetry%2fotlp-exporter-base set size:undefined disposed:false
+143 http fetch GET 200 https://registry.npmjs.org/@opentelemetry%2fotlp-transformer 129ms (cache miss)
+144 silly packumentCache full:https://registry.npmjs.org/@opentelemetry%2fotlp-transformer set size:undefined disposed:false
+145 silly placeDep node_modules/@opentelemetry/core @opentelemetry/semantic-conventions@1.28.0 OK for: @opentelemetry/core@1.30.1 want: 1.28.0
+146 silly fetch manifest @opentelemetry/api@^1.3.0
+147 silly packumentCache full:https://registry.npmjs.org/@opentelemetry%2fapi cache-miss
+148 http fetch GET 200 https://registry.npmjs.org/@opentelemetry%2fapi 5ms (cache hit)
+149 silly packumentCache full:https://registry.npmjs.org/@opentelemetry%2fapi set size:455567 disposed:false
+150 silly placeDep ROOT @opentelemetry/otlp-exporter-base@0.57.2 OK for: @opentelemetry/exporter-trace-otlp-http@0.57.2 want: 0.57.2
+151 silly placeDep ROOT @opentelemetry/otlp-transformer@0.57.2 OK for: @opentelemetry/exporter-trace-otlp-http@0.57.2 want: 0.57.2
+152 silly fetch manifest protobufjs@^7.3.0
+153 silly packumentCache full:https://registry.npmjs.org/protobufjs cache-miss
+154 silly fetch manifest @opentelemetry/api-logs@0.57.2
+155 silly packumentCache full:https://registry.npmjs.org/@opentelemetry%2fapi-logs cache-miss
+156 silly fetch manifest @opentelemetry/sdk-logs@0.57.2
+157 silly packumentCache full:https://registry.npmjs.org/@opentelemetry%2fsdk-logs cache-miss
+158 http fetch GET 200 https://registry.npmjs.org/@opentelemetry%2fsdk-logs 82ms (cache miss)
+159 silly packumentCache full:https://registry.npmjs.org/@opentelemetry%2fsdk-logs set size:undefined disposed:false
+160 http fetch GET 200 https://registry.npmjs.org/@opentelemetry%2fapi-logs 109ms (cache miss)
+161 silly packumentCache full:https://registry.npmjs.org/@opentelemetry%2fapi-logs set size:undefined disposed:false
+162 http fetch GET 200 https://registry.npmjs.org/protobufjs 125ms (cache miss)
+163 silly packumentCache full:https://registry.npmjs.org/protobufjs set size:undefined disposed:false
+164 silly placeDep ROOT @opentelemetry/api-logs@0.57.2 OK for: @opentelemetry/otlp-transformer@0.57.2 want: 0.57.2
+165 silly placeDep ROOT @opentelemetry/sdk-logs@0.57.2 OK for: @opentelemetry/otlp-transformer@0.57.2 want: 0.57.2
+166 silly placeDep ROOT protobufjs@7.5.4 OK for: @opentelemetry/otlp-transformer@0.57.2 want: ^7.3.0
+167 silly fetch manifest @protobufjs/aspromise@^1.1.2
+168 silly packumentCache full:https://registry.npmjs.org/@protobufjs%2faspromise cache-miss
+169 silly fetch manifest @protobufjs/base64@^1.1.2
+170 silly packumentCache full:https://registry.npmjs.org/@protobufjs%2fbase64 cache-miss
+171 silly fetch manifest @protobufjs/codegen@^2.0.4
+172 silly packumentCache full:https://registry.npmjs.org/@protobufjs%2fcodegen cache-miss
+173 silly fetch manifest @protobufjs/eventemitter@^1.1.0
+174 silly packumentCache full:https://registry.npmjs.org/@protobufjs%2feventemitter cache-miss
+175 silly fetch manifest @protobufjs/fetch@^1.1.0
+176 silly packumentCache full:https://registry.npmjs.org/@protobufjs%2ffetch cache-miss
+177 silly fetch manifest @protobufjs/float@^1.0.2
+178 silly packumentCache full:https://registry.npmjs.org/@protobufjs%2ffloat cache-miss
+179 silly fetch manifest @protobufjs/inquire@^1.1.0
+180 silly packumentCache full:https://registry.npmjs.org/@protobufjs%2finquire cache-miss
+181 silly fetch manifest @protobufjs/path@^1.1.2
+182 silly packumentCache full:https://registry.npmjs.org/@protobufjs%2fpath cache-miss
+183 silly fetch manifest @protobufjs/pool@^1.1.0
+184 silly packumentCache full:https://registry.npmjs.org/@protobufjs%2fpool cache-miss
+185 silly fetch manifest @protobufjs/utf8@^1.1.0
+186 silly packumentCache full:https://registry.npmjs.org/@protobufjs%2futf8 cache-miss
+187 silly fetch manifest @types/node@>=13.7.0
+188 silly packumentCache full:https://registry.npmjs.org/@types%2fnode cache-miss
+189 silly fetch manifest long@^5.0.0
+190 silly packumentCache full:https://registry.npmjs.org/long cache-miss
+191 http fetch GET 200 https://registry.npmjs.org/@protobufjs%2faspromise 67ms (cache miss)
+192 silly packumentCache full:https://registry.npmjs.org/@protobufjs%2faspromise set size:undefined disposed:false
+193 http fetch GET 200 https://registry.npmjs.org/@protobufjs%2futf8 76ms (cache miss)
+194 silly packumentCache full:https://registry.npmjs.org/@protobufjs%2futf8 set size:undefined disposed:false
+195 http fetch GET 200 https://registry.npmjs.org/@protobufjs%2finquire 78ms (cache miss)
+196 silly packumentCache full:https://registry.npmjs.org/@protobufjs%2finquire set size:undefined disposed:false
+197 http fetch GET 200 https://registry.npmjs.org/@protobufjs%2fbase64 80ms (cache miss)
+198 silly packumentCache full:https://registry.npmjs.org/@protobufjs%2fbase64 set size:undefined disposed:false
+199 http fetch GET 200 https://registry.npmjs.org/@protobufjs%2ffetch 79ms (cache miss)
+200 silly packumentCache full:https://registry.npmjs.org/@protobufjs%2ffetch set size:undefined disposed:false
+201 http fetch GET 200 https://registry.npmjs.org/@protobufjs%2ffloat 84ms (cache miss)
+202 silly packumentCache full:https://registry.npmjs.org/@protobufjs%2ffloat set size:undefined disposed:false
+203 http fetch GET 200 https://registry.npmjs.org/@protobufjs%2fpool 83ms (cache miss)
+204 silly packumentCache full:https://registry.npmjs.org/@protobufjs%2fpool set size:undefined disposed:false
+205 http fetch GET 200 https://registry.npmjs.org/@protobufjs%2fcodegen 91ms (cache miss)
+206 silly packumentCache full:https://registry.npmjs.org/@protobufjs%2fcodegen set size:undefined disposed:false
+207 http fetch GET 200 https://registry.npmjs.org/long 98ms (cache miss)
+208 silly packumentCache full:https://registry.npmjs.org/long set size:undefined disposed:false
+209 http fetch GET 200 https://registry.npmjs.org/@protobufjs%2fpath 111ms (cache miss)
+210 silly packumentCache full:https://registry.npmjs.org/@protobufjs%2fpath set size:undefined disposed:false
+211 http fetch GET 200 https://registry.npmjs.org/@protobufjs%2feventemitter 113ms (cache miss)
+212 silly packumentCache full:https://registry.npmjs.org/@protobufjs%2feventemitter set size:undefined disposed:false
+213 http fetch GET 200 https://registry.npmjs.org/@types%2fnode 299ms (cache miss)
+214 silly packumentCache full:https://registry.npmjs.org/@types%2fnode set size:undefined disposed:false
+215 silly placeDep node_modules/@opentelemetry/resources @opentelemetry/semantic-conventions@1.28.0 OK for: @opentelemetry/resources@1.30.1 want: 1.28.0
+216 silly placeDep node_modules/@opentelemetry/sdk-trace-base @opentelemetry/semantic-conventions@1.28.0 OK for: @opentelemetry/sdk-trace-base@1.30.1 want: 1.28.0
+217 silly placeDep ROOT ee-first@1.1.1 OK for: on-finished@2.4.1 want: 1.1.1
+218 silly placeDep ROOT @protobufjs/aspromise@1.1.2 OK for: protobufjs@7.5.4 want: ^1.1.2
+219 silly placeDep ROOT @protobufjs/base64@1.1.2 OK for: protobufjs@7.5.4 want: ^1.1.2
+220 silly placeDep ROOT @protobufjs/codegen@2.0.4 OK for: protobufjs@7.5.4 want: ^2.0.4
+221 silly placeDep ROOT @protobufjs/eventemitter@1.1.0 OK for: protobufjs@7.5.4 want: ^1.1.0
+222 silly placeDep ROOT @protobufjs/fetch@1.1.0 OK for: protobufjs@7.5.4 want: ^1.1.0
+223 silly placeDep ROOT @protobufjs/float@1.0.2 OK for: protobufjs@7.5.4 want: ^1.0.2
+224 silly placeDep ROOT @protobufjs/inquire@1.1.0 OK for: protobufjs@7.5.4 want: ^1.1.0
+225 silly placeDep ROOT @protobufjs/path@1.1.2 OK for: protobufjs@7.5.4 want: ^1.1.2
+226 silly placeDep ROOT @protobufjs/pool@1.1.0 OK for: protobufjs@7.5.4 want: ^1.1.0
+227 silly placeDep ROOT @protobufjs/utf8@1.1.0 OK for: protobufjs@7.5.4 want: ^1.1.0
+228 silly placeDep ROOT @types/node@24.10.1 OK for: protobufjs@7.5.4 want: >=13.7.0
+229 silly placeDep ROOT long@5.3.2 OK for: protobufjs@7.5.4 want: ^5.0.0
+230 silly fetch manifest undici-types@~7.16.0
+231 silly packumentCache full:https://registry.npmjs.org/undici-types cache-miss
+232 http fetch GET 200 https://registry.npmjs.org/undici-types 51ms (cache miss)
+233 silly packumentCache full:https://registry.npmjs.org/undici-types set size:undefined disposed:false
+234 silly placeDep ROOT undici-types@7.16.0 OK for: @types/node@24.10.1 want: ~7.16.0
+235 silly reify moves {}
+236 silly tarball no local data for undici-types@https://registry.npmjs.org/undici-types/-/undici-types-7.16.0.tgz. Extracting by manifest.
+237 silly tarball no local data for long@https://registry.npmjs.org/long/-/long-5.3.2.tgz. Extracting by manifest.
+238 silly tarball no local data for @types/node@https://registry.npmjs.org/@types/node/-/node-24.10.1.tgz. Extracting by manifest.
+239 silly tarball no local data for @protobufjs/utf8@https://registry.npmjs.org/@protobufjs/utf8/-/utf8-1.1.0.tgz. Extracting by manifest.
+240 silly tarball no local data for @protobufjs/pool@https://registry.npmjs.org/@protobufjs/pool/-/pool-1.1.0.tgz. Extracting by manifest.
+241 silly tarball no local data for @protobufjs/path@https://registry.npmjs.org/@protobufjs/path/-/path-1.1.2.tgz. Extracting by manifest.
+242 silly tarball no local data for @protobufjs/float@https://registry.npmjs.org/@protobufjs/float/-/float-1.0.2.tgz. Extracting by manifest.
+243 silly tarball no local data for @protobufjs/fetch@https://registry.npmjs.org/@protobufjs/fetch/-/fetch-1.1.0.tgz. Extracting by manifest.
+244 silly tarball no local data for @protobufjs/eventemitter@https://registry.npmjs.org/@protobufjs/eventemitter/-/eventemitter-1.1.0.tgz. Extracting by manifest.
+245 silly tarball no local data for @protobufjs/codegen@https://registry.npmjs.org/@protobufjs/codegen/-/codegen-2.0.4.tgz. Extracting by manifest.
+246 silly tarball no local data for @protobufjs/inquire@https://registry.npmjs.org/@protobufjs/inquire/-/inquire-1.1.0.tgz. Extracting by manifest.
+247 silly tarball no local data for @protobufjs/base64@https://registry.npmjs.org/@protobufjs/base64/-/base64-1.1.2.tgz. Extracting by manifest.
+248 silly tarball no local data for @protobufjs/aspromise@https://registry.npmjs.org/@protobufjs/aspromise/-/aspromise-1.1.2.tgz. Extracting by manifest.
+249 silly tarball no local data for ee-first@https://registry.npmjs.org/ee-first/-/ee-first-1.1.1.tgz. Extracting by manifest.
+250 silly tarball no local data for protobufjs@https://registry.npmjs.org/protobufjs/-/protobufjs-7.5.4.tgz. Extracting by manifest.
+251 silly tarball no local data for @opentelemetry/sdk-logs@https://registry.npmjs.org/@opentelemetry/sdk-logs/-/sdk-logs-0.57.2.tgz. Extracting by manifest.
+252 silly tarball no local data for @opentelemetry/api-logs@https://registry.npmjs.org/@opentelemetry/api-logs/-/api-logs-0.57.2.tgz. Extracting by manifest.
+253 silly tarball no local data for @opentelemetry/otlp-transformer@https://registry.npmjs.org/@opentelemetry/otlp-transformer/-/otlp-transformer-0.57.2.tgz. Extracting by manifest.
+254 silly tarball no local data for on-finished@https://registry.npmjs.org/on-finished/-/on-finished-2.4.1.tgz. Extracting by manifest.
+255 silly tarball no local data for @opentelemetry/otlp-exporter-base@https://registry.npmjs.org/@opentelemetry/otlp-exporter-base/-/otlp-exporter-base-0.57.2.tgz. Extracting by manifest.
+256 silly tarball no local data for jmespath@https://registry.npmjs.org/jmespath/-/jmespath-0.16.0.tgz. Extracting by manifest.
+257 silly tarball no local data for @opentelemetry/semantic-conventions@https://registry.npmjs.org/@opentelemetry/semantic-conventions/-/semantic-conventions-1.38.0.tgz. Extracting by manifest.
+258 silly tarball no local data for @opentelemetry/sdk-trace-base@https://registry.npmjs.org/@opentelemetry/sdk-trace-base/-/sdk-trace-base-1.30.1.tgz. Extracting by manifest.
+259 silly tarball no local data for @opentelemetry/propagator-jaeger@https://registry.npmjs.org/@opentelemetry/propagator-jaeger/-/propagator-jaeger-1.30.1.tgz. Extracting by manifest.
+260 silly tarball no local data for @opentelemetry/sdk-metrics@https://registry.npmjs.org/@opentelemetry/sdk-metrics/-/sdk-metrics-1.30.1.tgz. Extracting by manifest.
+261 silly tarball no local data for @opentelemetry/resources@https://registry.npmjs.org/@opentelemetry/resources/-/resources-1.30.1.tgz. Extracting by manifest.
+262 silly tarball no local data for @opentelemetry/exporter-trace-otlp-proto@https://registry.npmjs.org/@opentelemetry/exporter-trace-otlp-proto/-/exporter-trace-otlp-proto-0.57.2.tgz. Extracting by manifest.
+263 silly tarball no local data for @opentelemetry/propagator-b3@https://registry.npmjs.org/@opentelemetry/propagator-b3/-/propagator-b3-1.30.1.tgz. Extracting by manifest.
+264 silly tarball no local data for @opentelemetry/exporter-trace-otlp-http@https://registry.npmjs.org/@opentelemetry/exporter-trace-otlp-http/-/exporter-trace-otlp-http-0.57.2.tgz. Extracting by manifest.
+265 silly tarball no local data for @opentelemetry/exporter-prometheus@https://registry.npmjs.org/@opentelemetry/exporter-prometheus/-/exporter-prometheus-0.57.2.tgz. Extracting by manifest.
+266 silly tarball no local data for @opentelemetry/core@https://registry.npmjs.org/@opentelemetry/core/-/core-1.30.1.tgz. Extracting by manifest.
+267 silly tarball no local data for @opentelemetry/api@https://registry.npmjs.org/@opentelemetry/api/-/api-1.9.0.tgz. Extracting by manifest.
+268 silly tarball no local data for node-red-contrib-opentelemetry@https://registry.npmjs.org/node-red-contrib-opentelemetry/-/node-red-contrib-opentelemetry-1.6.3.tgz. Extracting by manifest.
+269 silly tarball no local data for @opentelemetry/semantic-conventions@https://registry.npmjs.org/@opentelemetry/semantic-conventions/-/semantic-conventions-1.28.0.tgz. Extracting by manifest.
+270 silly tarball no local data for @opentelemetry/semantic-conventions@https://registry.npmjs.org/@opentelemetry/semantic-conventions/-/semantic-conventions-1.28.0.tgz. Extracting by manifest.
+271 silly tarball no local data for @opentelemetry/semantic-conventions@https://registry.npmjs.org/@opentelemetry/semantic-conventions/-/semantic-conventions-1.28.0.tgz. Extracting by manifest.
+272 http fetch GET 200 https://registry.npmjs.org/long/-/long-5.3.2.tgz 86ms (cache miss)
+273 http fetch GET 200 https://registry.npmjs.org/@protobufjs/base64/-/base64-1.1.2.tgz 91ms (cache miss)
+274 http fetch GET 200 https://registry.npmjs.org/@protobufjs/codegen/-/codegen-2.0.4.tgz 92ms (cache miss)
+275 http fetch GET 200 https://registry.npmjs.org/@protobufjs/inquire/-/inquire-1.1.0.tgz 94ms (cache miss)
+276 http fetch GET 200 https://registry.npmjs.org/undici-types/-/undici-types-7.16.0.tgz 104ms (cache miss)
+277 http fetch GET 200 https://registry.npmjs.org/@protobufjs/eventemitter/-/eventemitter-1.1.0.tgz 106ms (cache miss)
+278 http fetch GET 200 https://registry.npmjs.org/@protobufjs/pool/-/pool-1.1.0.tgz 109ms (cache miss)
+279 http fetch GET 200 https://registry.npmjs.org/@protobufjs/path/-/path-1.1.2.tgz 108ms (cache miss)
+280 http fetch GET 200 https://registry.npmjs.org/@protobufjs/float/-/float-1.0.2.tgz 113ms (cache miss)
+281 http fetch GET 200 https://registry.npmjs.org/@protobufjs/utf8/-/utf8-1.1.0.tgz 128ms (cache miss)
+282 http fetch GET 200 https://registry.npmjs.org/on-finished/-/on-finished-2.4.1.tgz 127ms (cache miss)
+283 http fetch GET 200 https://registry.npmjs.org/ee-first/-/ee-first-1.1.1.tgz 175ms (cache miss)
+284 http fetch GET 200 https://registry.npmjs.org/@protobufjs/aspromise/-/aspromise-1.1.2.tgz 188ms (cache miss)
+285 http fetch GET 200 https://registry.npmjs.org/jmespath/-/jmespath-0.16.0.tgz 186ms (cache miss)
+286 http fetch GET 200 https://registry.npmjs.org/@protobufjs/fetch/-/fetch-1.1.0.tgz 237ms (cache miss)
+287 http fetch GET 200 https://registry.npmjs.org/@opentelemetry/propagator-jaeger/-/propagator-jaeger-1.30.1.tgz 245ms (cache miss)
+288 http fetch GET 200 https://registry.npmjs.org/@opentelemetry/api-logs/-/api-logs-0.57.2.tgz 262ms (cache miss)
+289 http fetch GET 200 https://registry.npmjs.org/node-red-contrib-opentelemetry/-/node-red-contrib-opentelemetry-1.6.3.tgz 295ms (cache miss)
+290 http fetch GET 200 https://registry.npmjs.org/@opentelemetry/exporter-trace-otlp-proto/-/exporter-trace-otlp-proto-0.57.2.tgz 309ms (cache miss)
+291 http fetch GET 200 https://registry.npmjs.org/@opentelemetry/exporter-prometheus/-/exporter-prometheus-0.57.2.tgz 323ms (cache miss)
+292 http fetch GET 200 https://registry.npmjs.org/@opentelemetry/propagator-b3/-/propagator-b3-1.30.1.tgz 340ms (cache miss)
+293 http fetch GET 200 https://registry.npmjs.org/@types/node/-/node-24.10.1.tgz 367ms (cache miss)
+294 http fetch GET 200 https://registry.npmjs.org/@opentelemetry/exporter-trace-otlp-http/-/exporter-trace-otlp-http-0.57.2.tgz 364ms (cache miss)
+295 http fetch GET 200 https://registry.npmjs.org/@opentelemetry/otlp-exporter-base/-/otlp-exporter-base-0.57.2.tgz 455ms (cache miss)
+296 http fetch GET 200 https://registry.npmjs.org/@opentelemetry/sdk-logs/-/sdk-logs-0.57.2.tgz 519ms (cache miss)
+297 http fetch GET 200 https://registry.npmjs.org/@opentelemetry/sdk-trace-base/-/sdk-trace-base-1.30.1.tgz 598ms (cache miss)
+298 http fetch GET 200 https://registry.npmjs.org/@opentelemetry/resources/-/resources-1.30.1.tgz 620ms (cache miss)
+299 http fetch GET 200 https://registry.npmjs.org/@opentelemetry/otlp-transformer/-/otlp-transformer-0.57.2.tgz 641ms (cache miss)
+300 http fetch GET 200 https://registry.npmjs.org/@opentelemetry/semantic-conventions/-/semantic-conventions-1.28.0.tgz 686ms (cache miss)
+301 http fetch GET 200 https://registry.npmjs.org/@opentelemetry/core/-/core-1.30.1.tgz 715ms (cache miss)
+302 http fetch GET 200 https://registry.npmjs.org/@opentelemetry/semantic-conventions/-/semantic-conventions-1.28.0.tgz 731ms (cache miss)
+303 http fetch GET 200 https://registry.npmjs.org/@opentelemetry/semantic-conventions/-/semantic-conventions-1.38.0.tgz 738ms (cache miss)
+304 http fetch GET 200 https://registry.npmjs.org/protobufjs/-/protobufjs-7.5.4.tgz 743ms (cache miss)
+305 http fetch GET 200 https://registry.npmjs.org/@opentelemetry/sdk-metrics/-/sdk-metrics-1.30.1.tgz 742ms (cache miss)
+306 http fetch GET 200 https://registry.npmjs.org/@opentelemetry/api/-/api-1.9.0.tgz 750ms (cache miss)
+307 http fetch GET 200 https://registry.npmjs.org/@opentelemetry/semantic-conventions/-/semantic-conventions-1.28.0.tgz 811ms (cache miss)
+308 info run protobufjs@7.5.4 postinstall node_modules/protobufjs node scripts/postinstall
+309 info run protobufjs@7.5.4 postinstall { code: 0, signal: null }
+310 silly ADD node_modules/undici-types
+311 silly ADD node_modules/long
+312 silly ADD node_modules/@types/node
+313 silly ADD node_modules/@protobufjs/utf8
+314 silly ADD node_modules/@protobufjs/pool
+315 silly ADD node_modules/@protobufjs/path
+316 silly ADD node_modules/@protobufjs/inquire
+317 silly ADD node_modules/@protobufjs/float
+318 silly ADD node_modules/@protobufjs/fetch
+319 silly ADD node_modules/@protobufjs/eventemitter
+320 silly ADD node_modules/@protobufjs/codegen
+321 silly ADD node_modules/@protobufjs/base64
+322 silly ADD node_modules/@protobufjs/aspromise
+323 silly ADD node_modules/ee-first
+324 silly ADD node_modules/protobufjs
+325 silly ADD node_modules/@opentelemetry/sdk-logs
+326 silly ADD node_modules/@opentelemetry/api-logs
+327 silly ADD node_modules/@opentelemetry/otlp-transformer
+328 silly ADD node_modules/@opentelemetry/otlp-exporter-base
+329 silly ADD node_modules/on-finished
+330 silly ADD node_modules/jmespath
+331 silly ADD node_modules/@opentelemetry/semantic-conventions
+332 silly ADD node_modules/@opentelemetry/sdk-trace-base
+333 silly ADD node_modules/@opentelemetry/sdk-trace-base/node_modules/@opentelemetry/semantic-conventions
+334 silly ADD node_modules/@opentelemetry/sdk-metrics
+335 silly ADD node_modules/@opentelemetry/resources
+336 silly ADD node_modules/@opentelemetry/resources/node_modules/@opentelemetry/semantic-conventions
+337 silly ADD node_modules/@opentelemetry/propagator-jaeger
+338 silly ADD node_modules/@opentelemetry/propagator-b3
+339 silly ADD node_modules/@opentelemetry/exporter-trace-otlp-proto
+340 silly ADD node_modules/@opentelemetry/exporter-trace-otlp-http
+341 silly ADD node_modules/@opentelemetry/exporter-prometheus
+342 silly ADD node_modules/@opentelemetry/core
+343 silly ADD node_modules/@opentelemetry/core/node_modules/@opentelemetry/semantic-conventions
+344 silly ADD node_modules/@opentelemetry/api
+345 silly ADD node_modules/node-red-contrib-opentelemetry
+346 verbose cwd /data
+347 verbose os Linux 6.14.0-33-generic
+348 verbose node v20.19.5
+349 verbose npm  v10.8.2
+350 verbose exit 0
+351 info ok

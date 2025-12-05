@@ -1,0 +1,507 @@
+[
+    {
+        "id": "22289d066455511e",
+        "type": "tab",
+        "label": "Flow 1",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "4d48182c67b8f464",
+        "type": "mqtt-broker",
+        "name": "",
+        "broker": "mqtt_broker",
+        "port": 1883,
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": false,
+        "protocolVersion": 4,
+        "keepalive": 60,
+        "cleansession": true,
+        "autoUnsubscribe": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthRetain": "false",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closeRetain": "false",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willRetain": "false",
+        "willPayload": "",
+        "willMsg": {},
+        "userProps": "",
+        "sessionExpiry": ""
+    },
+    {
+        "id": "3b38d8842a98c817",
+        "type": "prometheus-metric-config",
+        "name": "pzem_voltage",
+        "help": "Voltage Reading",
+        "labels": "label1",
+        "mtype": "gauge"
+    },
+    {
+        "id": "2445d8f542c7acbf",
+        "type": "prometheus-metric-config",
+        "name": "pzem_current",
+        "help": "Current Reading",
+        "labels": "label2",
+        "mtype": "gauge"
+    },
+    {
+        "id": "ae3438231553ad27",
+        "type": "prometheus-metric-config",
+        "name": "pzem_frequency",
+        "help": "Frequency Reading",
+        "labels": "label5",
+        "mtype": "gauge"
+    },
+    {
+        "id": "deccdb105cd311a5",
+        "type": "prometheus-metric-config",
+        "name": "pzem_energy",
+        "help": "Energy Reading",
+        "labels": "label4",
+        "mtype": "gauge"
+    },
+    {
+        "id": "09b5020b64b92686",
+        "type": "prometheus-metric-config",
+        "name": "pzem_power",
+        "help": "Power Reading",
+        "labels": "label3",
+        "mtype": "gauge"
+    },
+    {
+        "id": "bc78720772c1cd19",
+        "type": "prometheus-metric-config",
+        "name": "pzen_powerfactor",
+        "help": "powerfactor reading",
+        "labels": "label6",
+        "mtype": "gauge"
+    },
+    {
+        "id": "b4a2c72b90c5a82a",
+        "type": "mqtt in",
+        "z": "22289d066455511e",
+        "name": "",
+        "topic": "lab/pzem/data",
+        "qos": "0",
+        "datatype": "auto-detect",
+        "broker": "4d48182c67b8f464",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 150,
+        "y": 200,
+        "wires": [
+            [
+                "5087a4db3ace9957"
+            ]
+        ]
+    },
+    {
+        "id": "5087a4db3ace9957",
+        "type": "json",
+        "z": "22289d066455511e",
+        "name": "",
+        "property": "payload",
+        "action": "obj",
+        "pretty": false,
+        "x": 270,
+        "y": 200,
+        "wires": [
+            [
+                "15e607b65e3026ed"
+            ]
+        ]
+    },
+    {
+        "id": "15e607b65e3026ed",
+        "type": "function",
+        "z": "22289d066455511e",
+        "name": "function 1",
+        "func": "let pzem = msg.payload;\n\nlet msg1 = { payload: { op: 'set', val: pzem.voltage } };\nlet msg2 = { payload: { op: 'set', val: pzem.current } };\nlet msg3 = { payload: { op: 'set', val: pzem.power } };\nlet msg4 = { payload: { op: 'set', val: pzem.energy } };\nlet msg5 = { payload: { op: 'set', val: pzem.frequency } };\nlet msg6 = { payload: { op: 'set', val: pzem.power_factor } };\n\nreturn [msg1, msg2, msg3, msg4, msg5, msg6];",
+        "outputs": 6,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 440,
+        "y": 200,
+        "wires": [
+            [
+                "38db94e2dd7e4cd0"
+            ],
+            [
+                "ccd31deda1d2bd47"
+            ],
+            [
+                "70f23286be6a6ef9"
+            ],
+            [
+                "0e987f483b411233"
+            ],
+            [
+                "4cf9aefc99c11166"
+            ],
+            [
+                "05530b4a65f0030d"
+            ]
+        ]
+    },
+    {
+        "id": "38db94e2dd7e4cd0",
+        "type": "prometheus-exporter",
+        "z": "22289d066455511e",
+        "name": "Volt",
+        "metric": "3b38d8842a98c817",
+        "x": 610,
+        "y": 180,
+        "wires": []
+    },
+    {
+        "id": "ccd31deda1d2bd47",
+        "type": "prometheus-exporter",
+        "z": "22289d066455511e",
+        "name": "Amp",
+        "metric": "2445d8f542c7acbf",
+        "x": 610,
+        "y": 240,
+        "wires": []
+    },
+    {
+        "id": "4cf9aefc99c11166",
+        "type": "prometheus-exporter",
+        "z": "22289d066455511e",
+        "name": "Frequency",
+        "metric": "ae3438231553ad27",
+        "x": 630,
+        "y": 420,
+        "wires": []
+    },
+    {
+        "id": "05530b4a65f0030d",
+        "type": "prometheus-exporter",
+        "z": "22289d066455511e",
+        "name": "PowerFactor",
+        "metric": "bc78720772c1cd19",
+        "x": 630,
+        "y": 480,
+        "wires": []
+    },
+    {
+        "id": "0e987f483b411233",
+        "type": "prometheus-exporter",
+        "z": "22289d066455511e",
+        "name": "Energy",
+        "metric": "deccdb105cd311a5",
+        "x": 620,
+        "y": 360,
+        "wires": []
+    },
+    {
+        "id": "70f23286be6a6ef9",
+        "type": "prometheus-exporter",
+        "z": "22289d066455511e",
+        "name": "Power",
+        "metric": "09b5020b64b92686",
+        "x": 610,
+        "y": 300,
+        "wires": []
+    },
+    {
+        "id": "e7211ada732b9a51",
+        "type": "json",
+        "z": "22289d066455511e",
+        "name": "",
+        "property": "payload",
+        "action": "",
+        "pretty": false,
+        "x": 970,
+        "y": 240,
+        "wires": [
+            [
+                "74a20fd299e63389"
+            ]
+        ]
+    },
+    {
+        "id": "74a20fd299e63389",
+        "type": "function",
+        "z": "22289d066455511e",
+        "name": "function 2",
+        "func": "let currentVoltage = msg.payload.voltage;\nnode.status({ fill: \"green\", shape: \"dot\", text: \"Normal: \" + currentVoltage + \"V\" });\nlet history = context.get('history') || [];\nhistory.push(currentVoltage);\nif (history.length > 20) history.shift();\ncontext.set('history', history);\n\nlet sum = 0;\nfor (let i = 0; i < history.length; i++) {\n    sum += history[i];\n}\nlet average = sum / history.length;\nlet threshold = average * 0.10;\nlet difference = Math.abs(currentVoltage - average);\nif (difference > threshold && history.length > 5) {\n    node.status({ fill: \"red\", shape: \"ring\", text: \"SELF DESTRUCT IMMINENT: \" + currentVoltage + \"V\" });\n    msg.payload = {\n        alert: \"VOLTAGE ANOMALY DETECTED\",\n        value: currentVoltage,\n        average: average.toFixed(2)\n    };\n    return msg;\n}\nreturn null;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1100,
+        "y": 240,
+        "wires": [
+            [
+                "a60a088dd2c90384"
+            ]
+        ]
+    },
+    {
+        "id": "a60a088dd2c90384",
+        "type": "debug",
+        "z": "22289d066455511e",
+        "name": "debug 1",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1260,
+        "y": 240,
+        "wires": []
+    },
+    {
+        "id": "283f2bb882a68b54",
+        "type": "mqtt in",
+        "z": "22289d066455511e",
+        "name": "",
+        "topic": "lab/pzem/data",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "4d48182c67b8f464",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 870,
+        "y": 240,
+        "wires": [
+            [
+                "e7211ada732b9a51"
+            ]
+        ]
+    },
+    {
+        "id": "a0d7bf2d8e0bbfd9",
+        "type": "inject",
+        "z": "22289d066455511e",
+        "name": "normal",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "{\"voltage\": 220}",
+        "payloadType": "json",
+        "x": 950,
+        "y": 180,
+        "wires": [
+            [
+                "74a20fd299e63389"
+            ]
+        ]
+    },
+    {
+        "id": "f61830146ca1b7d1",
+        "type": "inject",
+        "z": "22289d066455511e",
+        "name": "anomaly",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "{\"voltage\": 300}",
+        "payloadType": "json",
+        "x": 960,
+        "y": 320,
+        "wires": [
+            [
+                "74a20fd299e63389"
+            ]
+        ]
+    },
+    {
+        "id": "65d8458feaf2bcbe",
+        "type": "mqtt in",
+        "z": "22289d066455511e",
+        "name": "",
+        "topic": "lab/pzem/data",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "4d48182c67b8f464",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 170,
+        "y": 580,
+        "wires": [
+            [
+                "f25afafe46cf9ca5"
+            ]
+        ]
+    },
+    {
+        "id": "7d2e72710fadbae7",
+        "type": "function",
+        "z": "22289d066455511e",
+        "name": "recorder",
+        "func": "let p = msg.payload;\nmsg.payload = {\n    time: new Date().toISOString(),\n    voltage: p.voltage,   \n    current: p.current,   \n    power: p.power,      \n    energy: p.energy,     \n    frequency: p.frequency, \n    pf: p.power_factor    \n};\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 440,
+        "y": 580,
+        "wires": [
+            [
+                "7992c4c8d09794c5"
+            ]
+        ]
+    },
+    {
+        "id": "7992c4c8d09794c5",
+        "type": "csv",
+        "z": "22289d066455511e",
+        "name": "",
+        "spec": "rfc",
+        "sep": ",",
+        "hdrin": "",
+        "hdrout": "none",
+        "multi": "one",
+        "ret": "\\r\\n",
+        "temp": "time,voltage,current,power,energy,frequency,pf",
+        "skip": "0",
+        "strings": true,
+        "include_empty_strings": "",
+        "include_null_values": "",
+        "x": 590,
+        "y": 580,
+        "wires": [
+            [
+                "0116360cce715c56"
+            ]
+        ]
+    },
+    {
+        "id": "0116360cce715c56",
+        "type": "file",
+        "z": "22289d066455511e",
+        "name": "",
+        "filename": "/data/HPfawzqi.csv",
+        "filenameType": "str",
+        "appendNewline": true,
+        "createDir": true,
+        "overwriteFile": "false",
+        "encoding": "none",
+        "x": 770,
+        "y": 580,
+        "wires": [
+            [
+                "06d756d1bb2e244e"
+            ]
+        ]
+    },
+    {
+        "id": "f25afafe46cf9ca5",
+        "type": "json",
+        "z": "22289d066455511e",
+        "name": "",
+        "property": "payload",
+        "action": "obj",
+        "pretty": false,
+        "x": 290,
+        "y": 580,
+        "wires": [
+            [
+                "7d2e72710fadbae7",
+                "80e612e3f04d58d1"
+            ]
+        ]
+    },
+    {
+        "id": "06d756d1bb2e244e",
+        "type": "debug",
+        "z": "22289d066455511e",
+        "name": "debug 2",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 940,
+        "y": 580,
+        "wires": []
+    },
+    {
+        "id": "80e612e3f04d58d1",
+        "type": "function",
+        "z": "22289d066455511e",
+        "name": "identifier",
+        "func": "// 1. Force the input to be a real number\n// If msg.payload.power is undefined, this becomes NaN\nlet watts = parseFloat(msg.payload.power);\n\n// Check if data is missing\nif (isNaN(watts)) {\n    node.status({ fill: \"red\", shape: \"dot\", text: \"ERROR: No Power Data\" });\n    return null;\n}\n\n// 2. Buffer Logic (10-second window)\nlet buffer = context.get('buffer') || [];\nbuffer.push(watts);\nif (buffer.length > 5) buffer.shift();\ncontext.set('buffer', buffer);\n\n// Wait for buffer to fill (Visual feedback provided)\nif (buffer.length < 5) {\n    node.status({ fill: \"yellow\", shape: \"ring\", text: \" filling buffer: \" + buffer.length + \"/5\" });\n    return null;\n}\n\n// 3. CALCULATE STATISTICS\nlet sum = 0;\nfor (let val of buffer) sum += val;\nlet avg = sum / buffer.length;\n\nlet min = Math.min(...buffer);\nlet max = Math.max(...buffer);\nlet jitter = max - min;\n\n// 4. IDENTIFICATION LOGIC\nlet deviceName = \"Unknown\";\nlet statusColor = \"purple\";\n\n// ZONE 1: Unplugged\nif (avg < 2.0) {\n    deviceName = \"Unplugged\";\n    statusColor = \"grey\";\n}\n\n// ZONE 2: Laptop (20W to 40W)\nelse if (avg >= 20.0 && avg < 40.0) {\n    if (jitter > 5.0) {\n        deviceName = \"Laptop Charger\";\n        statusColor = \"blue\";\n    } else {\n        deviceName = \"Unknown Stable (~30W)\";\n        statusColor = \"orange\";\n    }\n}\n\n// ZONE 3: Realme Phone (40W to 90W)\nelse if (avg >= 40.0 && avg < 90.0) {\n    if (jitter > 5.0) {\n        deviceName = \"Realme Phone\";\n        statusColor = \"green\";\n    } else {\n        deviceName = \"Unknown High Load\";\n        statusColor = \"red\";\n    }\n}\n\n// 5. DEBUG OUTPUT (This is key!)\n// This puts the math right on the node label so we can see it\nlet labelText = deviceName + \" (\" + avg.toFixed(1) + \"W)\";\nnode.status({ fill: statusColor, shape: \"dot\", text: labelText });\n\nmsg.payload = {\n    device: deviceName,\n    power: avg.toFixed(1),\n    jitter: jitter.toFixed(1)\n};\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 440,
+        "y": 620,
+        "wires": [
+            [
+                "6973189af964d2f9"
+            ]
+        ]
+    },
+    {
+        "id": "6973189af964d2f9",
+        "type": "debug",
+        "z": "22289d066455511e",
+        "name": "debug 3",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 600,
+        "y": 620,
+        "wires": []
+    }
+]
