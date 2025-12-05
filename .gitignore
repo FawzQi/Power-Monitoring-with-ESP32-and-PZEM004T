@@ -1,0 +1,11 @@
+# Ignore Docker Data Volumes (Heavy DBs)
+iot-stack/prometheus-data/
+iot-stack/grafana-data/
+iot-stack/mosquitto/data/
+iot-stack/mosquitto/log/
+iot-stack/node-red-data/node_modules/
+
+# But KEEP these (The Logic)
+!iot-stack/node-red-data/flows.json
+!iot-stack/node-red-data/package.json
+!iot-stack/node-red-data/settings.js
