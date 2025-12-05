@@ -5,7 +5,7 @@ on:
     branches:
       - main
   workflow_dispatch:
-  
+
 permissions:
   contents: write
 
@@ -20,7 +20,7 @@ jobs:
       - name: Setup Python
         uses: actions/setup-python@v5
         with:
-          python-version: 3.x
+          python-version: "3.x"
 
       - name: Install PlatformIO
         run: pip install platformio
@@ -35,16 +35,85 @@ jobs:
           VER=$(grep -oP '(?<=-DVERSION=\\").*(?=\\")' esp32-program/platformio.ini)
           echo "version=$VER" >> $GITHUB_OUTPUT
 
-      - name: Copy firmware to /firmware
+      - name: Get latest release
+        id: latest
+        continue-on-error: true
         run: |
-          mkdir -p firmware
-          cp esp32-program/.pio/build/esp32doit-devkit-v1/firmware.bin firmware/firmware_v${{ steps.getver.outputs.version }}.bin
-          echo "${{ steps.getver.outputs.version }}" > firmware/version.txt
+          LATEST=$(curl -s https://api.github.com/repos/${{ github.repository }}/releases/latest | jq -r '.tag_name')
+          if [[ -z "$LATEST" || "$LATEST" == "null" ]]; then
+            LATEST="none"
+          fi
+          echo "latest=$LATEST" >> $GITHUB_OUTPUT
 
-      - name: Commit and push new firmware
+      - name: Check version difference
+        id: compare
+        run: |
+          if [ "v${{ steps.getver.outputs.version }}" = "${{ steps.latest.outputs.latest }}" ]; then
+            echo "same_version=true" >> $GITHUB_OUTPUT
+          else
+            echo "same_version=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Skip release if same version
+        if: steps.compare.outputs.same_version == 'true'
+        run: echo "No new version detected. Skipping firmware publish."
+
+      - name: Upload build artifact
+        if: steps.compare.outputs.same_version == 'false'
+        uses: actions/upload-artifact@v4
+        with:
+          name: firmware_v${{ steps.getver.outputs.version }}.bin
+          path: esp32-program/.pio/build/esp32doit-devkit-v1/firmware.bin
+          
+      - name: Configure Git identity
+        if: steps.compare.outputs.same_version == 'false'
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add firmware/
-          git commit -m "Release firmware v${{ steps.getver.outputs.version }}"
-          git push origin main
+
+      - name: Create tag if not exists
+        id: autotag
+        run: |
+          TAG="v${{ steps.getver.outputs.version }}"
+          echo "Checking if tag $TAG exists..."
+          if git rev-parse "$TAG" >/dev/null 2>&1; then
+            echo "Tag $TAG already exists, skipping..."
+          else
+            echo "Creating tag $TAG"
+            git tag -a "$TAG" -m "Release $TAG"
+            git push origin "$TAG"
+          fi
+
+      - name: Generate changelog
+        if: steps.compare.outputs.same_version == 'false' && steps.latest.outputs.latest != 'none'
+        id: changelog
+        uses: mikepenz/release-changelog-builder-action@v5
+        with:
+          configuration: ".github/changelog-config.json"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Create GitHub Release
+        if: steps.compare.outputs.same_version == 'false'
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v${{ steps.getver.outputs.version }}
+          name: Firmware v${{ steps.getver.outputs.version }}
+          body: ${{ steps.changelog.outputs.changelog }}
+          files: esp32-program/.pio/build/esp32doit-devkit-v1/firmware.bin
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Upload version.json
+        if: steps.compare.outputs.same_version == 'false'
+        run: |
+          echo "{\"version\": \"${{ steps.getver.outputs.version }}\"}" > version.json
+
+      - name: Attach version.json to Release
+        if: steps.compare.outputs.same_version == 'false'
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v${{ steps.getver.outputs.version }}
+          files: version.json
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
