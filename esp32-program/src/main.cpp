@@ -293,11 +293,12 @@ void loop() {
 #define CURRENT_VERSION "1.2.3"
 
 int state_LED = 0;
+
 // ======================
 // Konfigurasi WiFi
 // ======================
-const char* ssid = "realme10";
-const char* password = "paansih7";
+const char* ssid = "b401_wifi";
+const char* password = "b401juara1";
 
 // ======================
 // OTA Configuration
@@ -476,15 +477,15 @@ void taskPZEM(void* pvParameters) {
 
             xQueueOverwrite(pzemQueue, &pzemData);
 
-            // Serial.println("PZEM Measurements:");
-            // Serial.printf("Time        : %lu ms\n", millis());
-            // Serial.printf("Voltage     : %.1f V\n", pzemData.voltage);
-            // Serial.printf("Current     : %.3f A\n", pzemData.current);
-            // Serial.printf("Power       : %.1f W\n", pzemData.power);
-            // Serial.printf("Energy      : %.0f Wh\n", pzemData.energy);
-            // Serial.printf("Frequency   : %.1f Hz\n", pzemData.frequency);
-            // Serial.printf("PowerFactor : %.2f\n", pzemData.pf);
-            // Serial.println("---------------------------");
+            Serial.println("PZEM Measurements:");
+            Serial.printf("Time        : %lu ms\n", millis());
+            Serial.printf("Voltage     : %.1f V\n", pzemData.voltage);
+            Serial.printf("Current     : %.3f A\n", pzemData.current);
+            Serial.printf("Power       : %.1f W\n", pzemData.power);
+            Serial.printf("Energy      : %.0f Wh\n", pzemData.energy);
+            Serial.printf("Frequency   : %.1f Hz\n", pzemData.frequency);
+            Serial.printf("PowerFactor : %.2f\n", pzemData.pf);
+            Serial.println("---------------------------");
         }
 
         vTaskDelay(pdMS_TO_TICKS(50));
