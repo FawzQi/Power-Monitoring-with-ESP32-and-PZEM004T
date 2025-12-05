@@ -6,8 +6,9 @@
 #include <WiFi.h>
 #include <WiFiClientSecure.h>
 
-#define CURRENT_VERSION "1.2.2"
+#define CURRENT_VERSION "1.2.3"
 
+int state_LED = 0;
 // ======================
 // Konfigurasi WiFi
 // ======================
@@ -20,7 +21,7 @@ const char* password = "paansih7";
 const char* baseUrl = "https://github.com/FawzQi/Power-Monitoring-with-ESP32-and-PZEM004T/releases/latest/download/";
 
 // === TAMBAHAN: Konfigurasi MQTT ===
-const char* mqtt_server = "192.168.200.245";  // GANTI DENGAN IP SERVER LAB ANDA
+const char* mqtt_server = "192.168.200.243";  // GANTI DENGAN IP SERVER LAB ANDA
 const int mqtt_port = 1883;
 const char* mqtt_topic = "lab/pzem/data";  // Topic yang akan di-subscribe Node-RED
 
@@ -108,6 +109,7 @@ void reconnect_mqtt() {
             delay(5000);
         }
     }
+    state_LED = 3;  // LED menyala menandakan koneksi MQTT berhasil
 }
 
 // ================= CRC =================
@@ -224,12 +226,35 @@ void taskPrintPZEM(void* pvParameters) {
     }
 }
 
+void taskLED(void* pvParameters) {
+    pinMode(2, OUTPUT);
+    while (true) {
+        if (state_LED == 0) {
+            digitalWrite(2, LOW);
+        } else if (state_LED == 1) {
+            digitalWrite(2, HIGH);
+            vTaskDelay(pdMS_TO_TICKS(500));
+            digitalWrite(2, LOW);
+            vTaskDelay(pdMS_TO_TICKS(500));
+        } else if (state_LED == 2) {
+            digitalWrite(2, HIGH);
+            vTaskDelay(pdMS_TO_TICKS(100));
+            digitalWrite(2, LOW);
+            vTaskDelay(pdMS_TO_TICKS(100));
+        } else if (state_LED == 3) {
+            digitalWrite(2, HIGH);
+        }
+        vTaskDelay(pdMS_TO_TICKS(20));
+    }
+}
 void setup() {
     Serial.begin(115200);
     Serial.println();
     Serial.println("==============================");
     Serial.println("Starting ESP32 with OTA Update");
     Serial.println("==============================");
+
+    xTaskCreate(taskLED, "LED Task", 4096, NULL, 1, NULL);
 
     // Koneksi WiFi
     WiFi.begin(ssid, password);
@@ -240,14 +265,18 @@ void setup() {
     }
     Serial.println();
     Serial.println("WiFi connected!");
+    state_LED = 1;  // LED berkedip menandakan koneksi WiFi berhasil
 
     // Cek OTA update
     checkForOTAUpdate();
+    state_LED = 2;  // Matikan LED setelah cek OTA
 
     // Set server MQTT
     mqttClient.setServer(mqtt_server, mqtt_port);
     Serial.println("Connecting to MQTT Broker...");
     reconnect_mqtt();
+    Serial.println("MQTT connected!");
+    state_LED = 3;  // LED menyala menandakan semua siap
 
     pzemSerial.begin(9600, SERIAL_8N1, 26, 27);  // RX=26, TX=27
     xTaskCreatePinnedToCore(taskPZEM, "PZEM Task", 4096, NULL, 1, NULL, 1);
@@ -256,7 +285,9 @@ void setup() {
 void loop() {
     // === TAMBAHAN: Pastikan koneksi MQTT selalu terjaga ===
     if (!mqttClient.connected()) {
+        state_LED = 2;  // LED berkedip menandakan koneksi MQTT sedang dicoba
         reconnect_mqtt();
+        state_LED = 3;  // LED menyala menandakan koneksi MQTT berhasil
     }
     mqttClient.loop();  // Wajib dipanggil di loop untuk proses MQTT
 
