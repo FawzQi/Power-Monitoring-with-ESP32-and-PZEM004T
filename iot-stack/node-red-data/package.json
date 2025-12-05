@@ -1,0 +1,11 @@
+{
+    "name": "node-red-project",
+    "description": "A Node-RED Project",
+    "version": "0.0.1",
+    "private": true,
+    "dependencies": {
+        "node-red-contrib-opentelemetry": "~1.6.3",
+        "node-red-contrib-prometheus-exporter": "~1.0.5",
+        "node-red-contrib-tensorflow": "~0.4.2"
+    }
+}
