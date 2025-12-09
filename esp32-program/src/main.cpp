@@ -13,8 +13,8 @@ int state_LED = 0;
 // ======================
 // Konfigurasi WiFi
 // ======================
-const char* ssid = "b401_wifi";
-const char* password = "b401juara1";
+const char* ssid = "realme10";
+const char* password = "paansih7";
 
 // ======================
 // OTA Configuration
@@ -22,7 +22,7 @@ const char* password = "b401juara1";
 const char* baseUrl = "https://github.com/FawzQi/Power-Monitoring-with-ESP32-and-PZEM004T/releases/latest/download/";
 
 // === TAMBAHAN: Konfigurasi MQTT ===
-const char* mqtt_server = "192.168.200.243";  // GANTI DENGAN IP SERVER LAB ANDA
+const char* mqtt_server = "10.134.220.209";  // GANTI DENGAN IP SERVER LAB ANDA
 const int mqtt_port = 1883;
 const char* mqtt_topic = "lab/pzem/data";  // Topic yang akan di-subscribe Node-RED
 
@@ -30,7 +30,7 @@ WiFiClient espClient;
 PubSubClient mqttClient(espClient);
 
 unsigned long lastRead = 0;
-const int readInterval = 2000;  // Interval 2000 ms
+const int readInterval = 100;  // Interval 2000 ms
 
 HardwareSerial pzemSerial(2);  // UART2
 

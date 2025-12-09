@@ -1,7 +1,7 @@
 {
     "node-red": {
         "name": "node-red",
-        "version": "4.1.1",
+        "version": "4.1.2",
         "local": false,
         "user": false,
         "nodes": {
@@ -454,36 +454,6 @@
                 "user": false,
                 "module": "node-red-contrib-prometheus-exporter",
                 "file": "/data/node_modules/node-red-contrib-prometheus-exporter/prometheus-exporter/prometheus-metric-config.js"
-            }
-        }
-    },
-    "node-red-contrib-opentelemetry": {
-        "name": "node-red-contrib-opentelemetry",
-        "version": "1.6.3",
-        "local": true,
-        "user": true,
-        "nodes": {
-            "opentelemetry": {
-                "name": "opentelemetry",
-                "types": [
-                    "OpenTelemetry"
-                ],
-                "enabled": false,
-                "local": true,
-                "user": false,
-                "module": "node-red-contrib-opentelemetry",
-                "file": "/data/node_modules/node-red-contrib-opentelemetry/lib/opentelemetry-node.js"
-            },
-            "prometheus": {
-                "name": "prometheus",
-                "types": [
-                    "Prometheus Exporter"
-                ],
-                "enabled": false,
-                "local": true,
-                "user": false,
-                "module": "node-red-contrib-opentelemetry",
-                "file": "/data/node_modules/node-red-contrib-opentelemetry/lib/prometheus-node.js"
             }
         }
     }

@@ -1,0 +1,363 @@
+0 verbose cli /usr/local/bin/node /usr/local/bin/npm
+1 info using npm@10.8.2
+2 info using node@v20.19.6
+3 silly config load:file:/usr/local/lib/node_modules/npm/npmrc
+4 silly config load:file:/data/.npmrc
+5 silly config load:file:/usr/src/node-red/.npmrc
+6 silly config load:file:/usr/local/etc/npmrc
+7 verbose title npm install node-red-contrib-prometheus-exporter@1.0.5
+8 verbose argv "install" "--no-audit" "--no-update-notifier" "--no-fund" "--save" "--save-prefix" "~" "--omit" "dev" "--engine-strict" "node-red-contrib-prometheus-exporter@1.0.5"
+9 verbose logfile logs-max:10 dir:/data/.npm/_logs/2025-12-05T11_54_33_607Z-
+10 verbose logfile /data/.npm/_logs/2025-12-05T11_54_33_607Z-debug-0.log
+11 silly packumentCache heap:2197815296 maxSize:549453824 maxEntrySize:274726912
+12 silly logfile done cleaning log files
+13 silly idealTree buildDeps
+14 silly fetch manifest node-red-contrib-prometheus-exporter@1.0.5
+15 silly packumentCache full:https://registry.npmjs.org/node-red-contrib-prometheus-exporter cache-miss
+16 http fetch GET https://registry.npmjs.org/node-red-contrib-prometheus-exporter attempt 1 failed with EAI_AGAIN
+17 http fetch GET https://registry.npmjs.org/node-red-contrib-prometheus-exporter attempt 2 failed with ETIMEDOUT
+18 http fetch GET 200 https://registry.npmjs.org/node-red-contrib-prometheus-exporter 81454ms (cache revalidated)
+19 silly packumentCache full:https://registry.npmjs.org/node-red-contrib-prometheus-exporter set size:21148 disposed:false
+20 silly placeDep ROOT node-red-contrib-prometheus-exporter@1.0.5 REPLACE for: node-red-project@0.0.1 want: 1.0.5
+21 silly reify moves {}
+22 warn deprecated inflight@1.0.6: This module is not supported, and leaks memory. Do not use it. Check out lru-cache if you want a good and tested way to coalesce async requests by a key value, which is much more comprehensive and powerful.
+23 warn deprecated phin@2.9.3: Package no longer supported. Contact Support at https://www.npmjs.com/support for more info.
+24 warn deprecated npmlog@5.0.1: This package is no longer supported.
+25 warn deprecated rimraf@2.7.1: Rimraf versions prior to v4 are no longer supported
+26 warn deprecated har-validator@5.1.5: this library is no longer supported
+27 warn deprecated phin@3.7.1: Package no longer supported. Contact Support at https://www.npmjs.com/support for more info.
+28 warn deprecated rimraf@3.0.2: Rimraf versions prior to v4 are no longer supported
+29 warn deprecated request-promise@4.2.6: request-promise has been deprecated because it extends the now deprecated request package, see https://github.com/request/request/issues/3142
+30 warn deprecated are-we-there-yet@2.0.0: This package is no longer supported.
+31 warn deprecated glob@7.2.3: Glob versions prior to v9 are no longer supported
+32 warn deprecated gauge@3.0.2: This package is no longer supported.
+33 warn deprecated uuid@3.4.0: Please upgrade  to version 7 or higher.  Older versions may use Math.random() in certain circumstances, which is known to be problematic.  See https://v8.dev/blog/math-random for details.
+34 warn deprecated request@2.88.2: request has been deprecated, see https://github.com/request/request/issues/3142
+35 info run @tensorflow/tfjs-node@4.1.0 install node_modules/@tensorflow/tfjs-node node scripts/install.js
+36 info run @tensorflow/tfjs-node@4.1.0 install { code: 0, signal: null }
+37 info run core-js@3.47.0 postinstall node_modules/core-js node -e "try{require('./postinstall')}catch(e){}"
+38 info run node-red-contrib-tensorflow@0.4.2 postinstall node_modules/node-red-contrib-tensorflow node postinstall.js
+39 info run protobufjs@7.5.4 postinstall node_modules/protobufjs node scripts/postinstall
+40 info run protobufjs@7.5.4 postinstall { code: 0, signal: null }
+41 info run core-js@3.47.0 postinstall { code: 0, signal: null }
+42 info run node-red-contrib-tensorflow@0.4.2 postinstall { code: 0, signal: null }
+43 silly ADD node_modules/node-red-contrib-prometheus-exporter
+44 silly ADD node_modules/yargs-parser
+45 silly ADD node_modules/yargs
+46 silly ADD node_modules/yallist
+47 silly ADD node_modules/y18n
+48 silly ADD node_modules/xtend
+49 silly ADD node_modules/xmlbuilder
+50 silly ADD node_modules/xml2js
+51 silly ADD node_modules/xml-parse-from-string
+52 silly ADD node_modules/xhr
+53 silly ADD node_modules/wrappy
+54 silly ADD node_modules/wrap-ansi
+55 silly ADD node_modules/wide-align
+56 silly ADD node_modules/whatwg-url
+57 silly ADD node_modules/webidl-conversions
+58 silly ADD node_modules/verror
+59 silly ADD node_modules/uuid
+60 silly ADD node_modules/util-deprecate
+61 silly ADD node_modules/utif
+62 silly ADD node_modules/uri-js
+63 silly ADD node_modules/undici-types
+64 silly ADD node_modules/tweetnacl
+65 silly ADD node_modules/tunnel-agent
+66 silly ADD node_modules/tr46
+67 silly ADD node_modules/tough-cookie
+68 silly ADD node_modules/token-types
+69 silly ADD node_modules/tinycolor2
+70 silly ADD node_modules/timm
+71 silly ADD node_modules/tdigest
+72 silly ADD node_modules/tar
+73 silly ADD node_modules/supports-color
+74 silly ADD node_modules/strtok3
+75 silly ADD node_modules/strip-ansi
+76 silly ADD node_modules/string-width
+77 silly ADD node_modules/string_decoder
+78 silly ADD node_modules/stream-buffers
+79 silly ADD node_modules/stealthy-require
+80 silly ADD node_modules/sshpk
+81 silly ADD node_modules/sprintf-js
+82 silly ADD node_modules/signal-exit
+83 silly ADD node_modules/set-blocking
+84 silly ADD node_modules/semver
+85 silly ADD node_modules/seedrandom
+86 silly ADD node_modules/sax
+87 silly ADD node_modules/safer-buffer
+88 silly ADD node_modules/safe-buffer
+89 silly ADD node_modules/rimraf
+90 silly ADD node_modules/require-directory
+91 silly ADD node_modules/request-promise-core
+92 silly ADD node_modules/request-promise
+93 silly ADD node_modules/request
+94 silly ADD node_modules/regenerator-runtime
+95 silly ADD node_modules/readable-web-to-node-stream
+96 silly ADD node_modules/readable-web-to-node-stream/node_modules/readable-stream
+97 silly ADD node_modules/readable-web-to-node-stream/node_modules/buffer
+98 silly ADD node_modules/readable-stream
+99 silly ADD node_modules/qs
+100 silly ADD node_modules/pureimage
+101 silly ADD node_modules/pureimage/node_modules/jpeg-js
+102 silly ADD node_modules/punycode
+103 silly ADD node_modules/psl
+104 silly ADD node_modules/protobufjs
+105 silly ADD node_modules/prom-client
+106 silly ADD node_modules/progress
+107 silly ADD node_modules/process
+108 silly ADD node_modules/pngjs
+109 silly ADD node_modules/pixelmatch
+110 silly ADD node_modules/phin
+111 silly ADD node_modules/performance-now
+112 silly ADD node_modules/peek-readable
+113 silly ADD node_modules/path-is-absolute
+114 silly ADD node_modules/parse-headers
+115 silly ADD node_modules/parse-bmfont-xml
+116 silly ADD node_modules/parse-bmfont-binary
+117 silly ADD node_modules/parse-bmfont-ascii
+118 silly ADD node_modules/pako
+119 silly ADD node_modules/opentype.js
+120 silly ADD node_modules/once
+121 silly ADD node_modules/on-finished
+122 silly ADD node_modules/omggif
+123 silly ADD node_modules/object-assign
+124 silly ADD node_modules/oauth-sign
+125 silly ADD node_modules/npmlog
+126 silly ADD node_modules/nopt
+127 silly ADD node_modules/node-red-contrib-tensorflow
+128 silly ADD node_modules/node-red-contrib-opentelemetry
+129 silly ADD node_modules/node-fetch
+130 silly ADD node_modules/ms
+131 silly ADD node_modules/mkdirp
+132 silly ADD node_modules/minizlib
+133 silly ADD node_modules/minipass
+134 silly ADD node_modules/minimist
+135 silly ADD node_modules/minimatch
+136 silly ADD node_modules/min-document
+137 silly ADD node_modules/mime-types
+138 silly ADD node_modules/mime-db
+139 silly ADD node_modules/mime
+140 silly ADD node_modules/math-intrinsics
+141 silly ADD node_modules/make-dir
+142 silly ADD node_modules/make-dir/node_modules/semver
+143 silly ADD node_modules/long
+144 silly ADD node_modules/lodash
+145 silly ADD node_modules/load-bmfont
+146 silly ADD node_modules/load-bmfont/node_modules/phin
+147 silly ADD node_modules/jsprim
+148 silly ADD node_modules/json-stringify-safe
+149 silly ADD node_modules/json-schema-traverse
+150 silly ADD node_modules/json-schema
+151 silly ADD node_modules/jsbn
+152 silly ADD node_modules/jpeg-js
+153 silly ADD node_modules/jmespath
+154 silly ADD node_modules/jimp
+155 silly ADD node_modules/isstream
+156 silly ADD node_modules/is-typedarray
+157 silly ADD node_modules/is-function
+158 silly ADD node_modules/is-fullwidth-code-point
+159 silly ADD node_modules/inherits
+160 silly ADD node_modules/inflight
+161 silly ADD node_modules/image-q
+162 silly ADD node_modules/image-q/node_modules/@types/node
+163 silly ADD node_modules/ieee754
+164 silly ADD node_modules/https-proxy-agent
+165 silly ADD node_modules/http-signature
+166 silly ADD node_modules/hasown
+167 silly ADD node_modules/has-unicode
+168 silly ADD node_modules/has-tostringtag
+169 silly ADD node_modules/has-symbols
+170 silly ADD node_modules/has-flag
+171 silly ADD node_modules/har-validator
+172 silly ADD node_modules/har-schema
+173 silly ADD node_modules/gopd
+174 silly ADD node_modules/google-protobuf
+175 silly ADD node_modules/global
+176 silly ADD node_modules/glob
+177 silly ADD node_modules/gifwrap
+178 silly ADD node_modules/getpass
+179 silly ADD node_modules/get-proto
+180 silly ADD node_modules/get-intrinsic
+181 silly ADD node_modules/get-caller-file
+182 silly ADD node_modules/gauge
+183 silly ADD node_modules/function-bind
+184 silly ADD node_modules/fs.realpath
+185 silly ADD node_modules/fs-minipass
+186 silly ADD node_modules/form-data
+187 silly ADD node_modules/forever-agent
+188 silly ADD node_modules/follow-redirects
+189 silly ADD node_modules/file-type
+190 silly ADD node_modules/fast-json-stable-stringify
+191 silly ADD node_modules/fast-deep-equal
+192 silly ADD node_modules/extsprintf
+193 silly ADD node_modules/extend
+194 silly ADD node_modules/exif-parser
+195 silly ADD node_modules/events
+196 silly ADD node_modules/event-target-shim
+197 silly ADD node_modules/escalade
+198 silly ADD node_modules/es6-promisify
+199 silly ADD node_modules/es6-promise
+200 silly ADD node_modules/es-set-tostringtag
+201 silly ADD node_modules/es-object-atoms
+202 silly ADD node_modules/es-errors
+203 silly ADD node_modules/es-define-property
+204 silly ADD node_modules/emoji-regex
+205 silly ADD node_modules/ee-first
+206 silly ADD node_modules/ecc-jsbn
+207 silly ADD node_modules/dunder-proto
+208 silly ADD node_modules/dom-walk
+209 silly ADD node_modules/detect-libc
+210 silly ADD node_modules/delegates
+211 silly ADD node_modules/delayed-stream
+212 silly ADD node_modules/debug
+213 silly ADD node_modules/dashdash
+214 silly ADD node_modules/core-util-is
+215 silly ADD node_modules/core-js
+216 silly ADD node_modules/console-control-strings
+217 silly ADD node_modules/concat-map
+218 silly ADD node_modules/combined-stream
+219 silly ADD node_modules/color-support
+220 silly ADD node_modules/color-name
+221 silly ADD node_modules/color-convert
+222 silly ADD node_modules/cliui
+223 silly ADD node_modules/chownr
+224 silly ADD node_modules/chalk
+225 silly ADD node_modules/centra
+226 silly ADD node_modules/caseless
+227 silly ADD node_modules/call-bind-apply-helpers
+228 silly ADD node_modules/buffer-equal
+229 silly ADD node_modules/buffer
+230 silly ADD node_modules/brace-expansion
+231 silly ADD node_modules/bmp-js
+232 silly ADD node_modules/bluebird
+233 silly ADD node_modules/bintrees
+234 silly ADD node_modules/bcrypt-pbkdf
+235 silly ADD node_modules/base64-js
+236 silly ADD node_modules/balanced-match
+237 silly ADD node_modules/aws4
+238 silly ADD node_modules/aws-sign2
+239 silly ADD node_modules/asynckit
+240 silly ADD node_modules/assert-plus
+241 silly ADD node_modules/asn1
+242 silly ADD node_modules/argparse
+243 silly ADD node_modules/are-we-there-yet
+244 silly ADD node_modules/aproba
+245 silly ADD node_modules/any-base
+246 silly ADD node_modules/ansi-styles
+247 silly ADD node_modules/ansi-regex
+248 silly ADD node_modules/ajv
+249 silly ADD node_modules/agent-base
+250 silly ADD node_modules/adm-zip
+251 silly ADD node_modules/abort-controller
+252 silly ADD node_modules/abbrev
+253 silly ADD node_modules/@webgpu/types
+254 silly ADD node_modules/@types/webgl2
+255 silly ADD node_modules/@types/webgl-ext
+256 silly ADD node_modules/@types/seedrandom
+257 silly ADD node_modules/@types/offscreencanvas
+258 silly ADD node_modules/@types/node-fetch
+259 silly ADD node_modules/@types/node-fetch/node_modules/form-data
+260 silly ADD node_modules/@types/node
+261 silly ADD node_modules/@types/long
+262 silly ADD node_modules/@tokenizer/token
+263 silly ADD node_modules/@tensorflow/tfjs-node
+264 silly ADD node_modules/@tensorflow/tfjs-node/node_modules/rimraf
+265 silly ADD node_modules/@tensorflow/tfjs-core
+266 silly ADD node_modules/@tensorflow/tfjs-core/node_modules/long
+267 silly ADD node_modules/@tensorflow/tfjs-converter
+268 silly ADD node_modules/@tensorflow/tfjs-backend-webgl
+269 silly ADD node_modules/@tensorflow/tfjs-backend-cpu
+270 silly ADD node_modules/@tensorflow/tfjs
+271 silly ADD node_modules/@tensorflow/tfjs/node_modules/long
+272 silly ADD node_modules/@tensorflow/tfjs/node_modules/@webgpu/types
+273 silly ADD node_modules/@tensorflow/tfjs/node_modules/@tensorflow/tfjs-layers
+274 silly ADD node_modules/@tensorflow/tfjs/node_modules/@tensorflow/tfjs-data
+275 silly ADD node_modules/@tensorflow/tfjs/node_modules/@tensorflow/tfjs-core
+276 silly ADD node_modules/@tensorflow/tfjs/node_modules/@tensorflow/tfjs-core/node_modules/@types/offscreencanvas
+277 silly ADD node_modules/@tensorflow/tfjs/node_modules/@tensorflow/tfjs-converter
+278 silly ADD node_modules/@tensorflow/tfjs/node_modules/@tensorflow/tfjs-backend-webgl
+279 silly ADD node_modules/@tensorflow/tfjs/node_modules/@tensorflow/tfjs-backend-cpu
+280 silly ADD node_modules/@tensorflow-models/posenet
+281 silly ADD node_modules/@tensorflow-models/mobilenet
+282 silly ADD node_modules/@tensorflow-models/handpose
+283 silly ADD node_modules/@tensorflow-models/coco-ssd
+284 silly ADD node_modules/@protobufjs/utf8
+285 silly ADD node_modules/@protobufjs/pool
+286 silly ADD node_modules/@protobufjs/path
+287 silly ADD node_modules/@protobufjs/inquire
+288 silly ADD node_modules/@protobufjs/float
+289 silly ADD node_modules/@protobufjs/fetch
+290 silly ADD node_modules/@protobufjs/eventemitter
+291 silly ADD node_modules/@protobufjs/codegen
+292 silly ADD node_modules/@protobufjs/base64
+293 silly ADD node_modules/@protobufjs/aspromise
+294 silly ADD node_modules/@opentelemetry/semantic-conventions
+295 silly ADD node_modules/@opentelemetry/sdk-trace-base
+296 silly ADD node_modules/@opentelemetry/sdk-trace-base/node_modules/@opentelemetry/semantic-conventions
+297 silly ADD node_modules/@opentelemetry/sdk-metrics
+298 silly ADD node_modules/@opentelemetry/sdk-logs
+299 silly ADD node_modules/@opentelemetry/resources
+300 silly ADD node_modules/@opentelemetry/resources/node_modules/@opentelemetry/semantic-conventions
+301 silly ADD node_modules/@opentelemetry/propagator-jaeger
+302 silly ADD node_modules/@opentelemetry/propagator-b3
+303 silly ADD node_modules/@opentelemetry/otlp-transformer
+304 silly ADD node_modules/@opentelemetry/otlp-exporter-base
+305 silly ADD node_modules/@opentelemetry/exporter-trace-otlp-proto
+306 silly ADD node_modules/@opentelemetry/exporter-trace-otlp-http
+307 silly ADD node_modules/@opentelemetry/exporter-prometheus
+308 silly ADD node_modules/@opentelemetry/core
+309 silly ADD node_modules/@opentelemetry/core/node_modules/@opentelemetry/semantic-conventions
+310 silly ADD node_modules/@opentelemetry/api-logs
+311 silly ADD node_modules/@opentelemetry/api
+312 silly ADD node_modules/@mapbox/node-pre-gyp
+313 silly ADD node_modules/@mapbox/node-pre-gyp/node_modules/yallist
+314 silly ADD node_modules/@mapbox/node-pre-gyp/node_modules/tar
+315 silly ADD node_modules/@mapbox/node-pre-gyp/node_modules/mkdirp
+316 silly ADD node_modules/@mapbox/node-pre-gyp/node_modules/minizlib
+317 silly ADD node_modules/@mapbox/node-pre-gyp/node_modules/minizlib/node_modules/minipass
+318 silly ADD node_modules/@mapbox/node-pre-gyp/node_modules/minipass
+319 silly ADD node_modules/@mapbox/node-pre-gyp/node_modules/https-proxy-agent
+320 silly ADD node_modules/@mapbox/node-pre-gyp/node_modules/fs-minipass
+321 silly ADD node_modules/@mapbox/node-pre-gyp/node_modules/fs-minipass/node_modules/minipass
+322 silly ADD node_modules/@mapbox/node-pre-gyp/node_modules/debug
+323 silly ADD node_modules/@mapbox/node-pre-gyp/node_modules/chownr
+324 silly ADD node_modules/@mapbox/node-pre-gyp/node_modules/agent-base
+325 silly ADD node_modules/@jimp/utils
+326 silly ADD node_modules/@jimp/types
+327 silly ADD node_modules/@jimp/tiff
+328 silly ADD node_modules/@jimp/png
+329 silly ADD node_modules/@jimp/plugins
+330 silly ADD node_modules/@jimp/plugin-threshold
+331 silly ADD node_modules/@jimp/plugin-shadow
+332 silly ADD node_modules/@jimp/plugin-scale
+333 silly ADD node_modules/@jimp/plugin-rotate
+334 silly ADD node_modules/@jimp/plugin-resize
+335 silly ADD node_modules/@jimp/plugin-print
+336 silly ADD node_modules/@jimp/plugin-normalize
+337 silly ADD node_modules/@jimp/plugin-mask
+338 silly ADD node_modules/@jimp/plugin-invert
+339 silly ADD node_modules/@jimp/plugin-gaussian
+340 silly ADD node_modules/@jimp/plugin-flip
+341 silly ADD node_modules/@jimp/plugin-fisheye
+342 silly ADD node_modules/@jimp/plugin-dither
+343 silly ADD node_modules/@jimp/plugin-displace
+344 silly ADD node_modules/@jimp/plugin-crop
+345 silly ADD node_modules/@jimp/plugin-cover
+346 silly ADD node_modules/@jimp/plugin-contain
+347 silly ADD node_modules/@jimp/plugin-color
+348 silly ADD node_modules/@jimp/plugin-circle
+349 silly ADD node_modules/@jimp/plugin-blur
+350 silly ADD node_modules/@jimp/plugin-blit
+351 silly ADD node_modules/@jimp/jpeg
+352 silly ADD node_modules/@jimp/gif
+353 silly ADD node_modules/@jimp/custom
+354 silly ADD node_modules/@jimp/core
+355 silly ADD node_modules/@jimp/bmp
+356 silly ADD node_modules/@babel/runtime
+357 verbose cwd /data
+358 verbose os Linux 6.8.0-87-generic
+359 verbose node v20.19.6
+360 verbose npm  v10.8.2
+361 verbose exit 0
+362 info ok
