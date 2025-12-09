@@ -1,7 +1,7 @@
 {
     "node-red": {
         "name": "node-red",
-        "version": "4.1.1",
+        "version": "4.1.2",
         "local": false,
         "user": false,
         "nodes": {
@@ -468,7 +468,7 @@
                 "types": [
                     "OpenTelemetry"
                 ],
-                "enabled": false,
+                "enabled": true,
                 "local": true,
                 "user": false,
                 "module": "node-red-contrib-opentelemetry",
@@ -479,7 +479,7 @@
                 "types": [
                     "Prometheus Exporter"
                 ],
-                "enabled": false,
+                "enabled": true,
                 "local": true,
                 "user": false,
                 "module": "node-red-contrib-opentelemetry",
