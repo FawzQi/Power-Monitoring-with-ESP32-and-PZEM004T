@@ -118,9 +118,7 @@
         "x": 270,
         "y": 200,
         "wires": [
-            [
-                "15e607b65e3026ed"
-            ]
+            []
         ]
     },
     {
@@ -186,7 +184,7 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 1100,
+        "x": 1140,
         "y": 240,
         "wires": [
             [
@@ -357,13 +355,13 @@
         "type": "file",
         "z": "22289d066455511e",
         "name": "",
-        "filename": "/data/LaptopFaiq.csv",
+        "filename": "/data/HPdanLaptop.csv",
         "filenameType": "str",
         "appendNewline": false,
         "createDir": true,
         "overwriteFile": "false",
         "encoding": "none",
-        "x": 780,
+        "x": 790,
         "y": 580,
         "wires": [
             [
@@ -402,7 +400,7 @@
         "targetType": "msg",
         "statusVal": "",
         "statusType": "auto",
-        "x": 980,
+        "x": 1060,
         "y": 580,
         "wires": []
     },
@@ -549,7 +547,7 @@
         "method": "POST",
         "ret": "obj",
         "paytoqs": "ignore",
-        "url": "http://127.0.0.1:5000/predict",
+        "url": "http://10.220.4.209:5000/predict",
         "tls": "",
         "persist": false,
         "proxy": "",
@@ -570,7 +568,7 @@
         "type": "debug",
         "z": "22289d066455511e",
         "name": "debug 4",
-        "active": false,
+        "active": true,
         "tosidebar": true,
         "console": false,
         "tostatus": false,
@@ -579,6 +577,75 @@
         "statusType": "auto",
         "x": 740,
         "y": 720,
+        "wires": []
+    },
+    {
+        "id": "d82b9a5c03e2e476",
+        "type": "inject",
+        "z": "22289d066455511e",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "{     \"sensor_data\": [226.4,0.167,12.4,4064,50,0.33] }",
+        "payloadType": "json",
+        "x": 970,
+        "y": 700,
+        "wires": [
+            [
+                "4c253dfd2dcbad8c"
+            ]
+        ]
+    },
+    {
+        "id": "4c253dfd2dcbad8c",
+        "type": "http request",
+        "z": "22289d066455511e",
+        "name": "pred",
+        "method": "POST",
+        "ret": "obj",
+        "paytoqs": "ignore",
+        "url": "http://10.220.4.209:5000/predict",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 1150,
+        "y": 700,
+        "wires": [
+            [
+                "f73b29bd5d974806"
+            ]
+        ]
+    },
+    {
+        "id": "f73b29bd5d974806",
+        "type": "debug",
+        "z": "22289d066455511e",
+        "name": "debug 5",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1340,
+        "y": 700,
         "wires": []
     }
 ]
