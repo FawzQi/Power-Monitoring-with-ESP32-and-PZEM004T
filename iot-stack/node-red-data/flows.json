@@ -87,6 +87,14 @@
         "mtype": "gauge"
     },
     {
+        "id": "09873eafbb71f5e2",
+        "type": "prometheus-metric-config",
+        "name": "pzem_ai_final",
+        "help": "AI Status",
+        "labels": "prediction_text",
+        "mtype": "gauge"
+    },
+    {
         "id": "b4a2c72b90c5a82a",
         "type": "mqtt in",
         "z": "22289d066455511e",
@@ -118,7 +126,9 @@
         "x": 270,
         "y": 200,
         "wires": [
-            []
+            [
+                "15e607b65e3026ed"
+            ]
         ]
     },
     {
@@ -197,7 +207,7 @@
         "type": "debug",
         "z": "22289d066455511e",
         "name": "debug 1",
-        "active": false,
+        "active": true,
         "tosidebar": true,
         "console": false,
         "tostatus": false,
@@ -347,7 +357,9 @@
         "x": 590,
         "y": 580,
         "wires": [
-            []
+            [
+                "0116360cce715c56"
+            ]
         ]
     },
     {
@@ -500,8 +512,8 @@
         "y": 720,
         "wires": [
             [
-                "d9e1214cbda21951",
-                "fc7eb768eed67ab1"
+                "fc7eb768eed67ab1",
+                "3453b86560a138b0"
             ]
         ]
     },
@@ -523,23 +535,6 @@
         "wires": []
     },
     {
-        "id": "d9e1214cbda21951",
-        "type": "debug",
-        "z": "22289d066455511e",
-        "name": "debug 6",
-        "active": false,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "payload",
-        "targetType": "msg",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 540,
-        "y": 800,
-        "wires": []
-    },
-    {
         "id": "fc7eb768eed67ab1",
         "type": "http request",
         "z": "22289d066455511e",
@@ -547,7 +542,7 @@
         "method": "POST",
         "ret": "obj",
         "paytoqs": "ignore",
-        "url": "http://10.220.4.209:5000/predict",
+        "url": "http://10.189.101.77:5000/predict",
         "tls": "",
         "persist": false,
         "proxy": "",
@@ -559,25 +554,10 @@
         "y": 720,
         "wires": [
             [
-                "4a2b0823098cf7b4"
+                "600fcb92e82e8462",
+                "8ae6b30142a256ee"
             ]
         ]
-    },
-    {
-        "id": "4a2b0823098cf7b4",
-        "type": "debug",
-        "z": "22289d066455511e",
-        "name": "debug 4",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "false",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 740,
-        "y": 720,
-        "wires": []
     },
     {
         "id": "d82b9a5c03e2e476",
@@ -637,7 +617,7 @@
         "type": "debug",
         "z": "22289d066455511e",
         "name": "debug 5",
-        "active": false,
+        "active": true,
         "tosidebar": true,
         "console": false,
         "tostatus": false,
@@ -646,6 +626,69 @@
         "statusType": "auto",
         "x": 1340,
         "y": 700,
+        "wires": []
+    },
+    {
+        "id": "600fcb92e82e8462",
+        "type": "function",
+        "z": "22289d066455511e",
+        "name": "function 4",
+        "func": "// 1. Get the text.\nlet ai_text = \"Unknown\";\nif (msg.payload && msg.payload.prediksi) {\n    ai_text = msg.payload.prediksi;\n}\n\n// 2. Construct the Payload Object\n// We set 'val' to 1. This acts as a \"flag\" saying this state is active.\n// We put the actual text inside 'labels'.\nmsg.payload = {\n    val: 1,\n    labels: {\n        prediction_text: ai_text\n    }\n};\n\n// 3. Reset msg.labels (to avoid conflicts if the node looks here too)\ndelete msg.labels;\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 760,
+        "y": 720,
+        "wires": [
+            [
+                "eed42ca9457ee064"
+            ]
+        ]
+    },
+    {
+        "id": "eed42ca9457ee064",
+        "type": "prometheus-exporter",
+        "z": "22289d066455511e",
+        "name": "pzem_ai_final",
+        "metric": "09873eafbb71f5e2",
+        "x": 940,
+        "y": 780,
+        "wires": []
+    },
+    {
+        "id": "3453b86560a138b0",
+        "type": "debug",
+        "z": "22289d066455511e",
+        "name": "debug 4",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 540,
+        "y": 800,
+        "wires": []
+    },
+    {
+        "id": "8ae6b30142a256ee",
+        "type": "debug",
+        "z": "22289d066455511e",
+        "name": "debug 6",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 700,
+        "y": 800,
         "wires": []
     }
 ]

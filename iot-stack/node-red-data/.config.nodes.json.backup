@@ -456,5 +456,57 @@
                 "file": "/data/node_modules/node-red-contrib-prometheus-exporter/prometheus-exporter/prometheus-metric-config.js"
             }
         }
+    },
+    "node-red-contrib-opentelemetry": {
+        "name": "node-red-contrib-opentelemetry",
+        "version": "1.6.3",
+        "local": true,
+        "user": true,
+        "nodes": {
+            "opentelemetry": {
+                "name": "opentelemetry",
+                "types": [
+                    "OpenTelemetry"
+                ],
+                "enabled": true,
+                "local": true,
+                "user": false,
+                "module": "node-red-contrib-opentelemetry",
+                "file": "/data/node_modules/node-red-contrib-opentelemetry/lib/opentelemetry-node.js"
+            },
+            "prometheus": {
+                "name": "prometheus",
+                "types": [
+                    "Prometheus Exporter"
+                ],
+                "enabled": true,
+                "local": true,
+                "user": false,
+                "module": "node-red-contrib-opentelemetry",
+                "file": "/data/node_modules/node-red-contrib-opentelemetry/lib/prometheus-node.js"
+            }
+        }
+    },
+    "node-red-contrib-tensorflow": {
+        "name": "node-red-contrib-tensorflow",
+        "version": "0.4.2",
+        "local": true,
+        "user": true,
+        "nodes": {
+            "node": {
+                "name": "node",
+                "types": [
+                    "cocossd",
+                    "handpose",
+                    "mobilenet",
+                    "posenet"
+                ],
+                "enabled": true,
+                "local": true,
+                "user": false,
+                "module": "node-red-contrib-tensorflow",
+                "file": "/data/node_modules/node-red-contrib-tensorflow/tensorflow.js"
+            }
+        }
     }
 }
