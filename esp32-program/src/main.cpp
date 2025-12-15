@@ -6,7 +6,7 @@
 #include <WiFi.h>
 #include <WiFiClientSecure.h>
 
-#define CURRENT_VERSION "1.3.0"
+#define CURRENT_VERSION "1.3.1"
 #define RELAY_PIN 13
 
 int state_LED = 0;
@@ -181,6 +181,32 @@ bool readAllPZEM(uint16_t* out) {
     return true;
 }
 
+void resetEnergyPZEM() {
+    uint8_t req[4];
+    req[0] = 0x01;  // Slave ID
+    req[1] = 0x42;  // Function Code untuk RESET ENERGY
+
+    // Hitung CRC
+    uint16_t crc = crc16(req, 2);
+    req[2] = crc & 0xFF;
+    req[3] = crc >> 8;
+
+    Serial.println("Mengirim perintah Reset Energy...");
+    pzemSerial.write(req, 4);
+    delay(100);  // Beri waktu PZEM memproses
+
+    // Cek respon (Opsional, biasanya PZEM membalas dengan slave id & func code yang sama)
+    if (pzemSerial.available() >= 4) {
+        uint8_t resp[4];
+        pzemSerial.readBytes(resp, 4);
+        if (resp[0] == 0x01 && resp[1] == 0x42) {
+            Serial.println("Energy BERHASIL di-reset ke 0!");
+        } else {
+            Serial.println("Gagal reset energy.");
+        }
+    }
+}
+
 QueueHandle_t pzemQueue = xQueueCreate(1, sizeof(PZEMData));
 
 void taskPZEM(void* pvParameters) {
@@ -213,15 +239,15 @@ void taskPZEM(void* pvParameters) {
 
             xQueueOverwrite(pzemQueue, &pzemData);
 
-            // Serial.println("PZEM Measurements:");
-            // Serial.printf("Time        : %lu ms\n", millis());
-            // Serial.printf("Voltage     : %.1f V\n", pzemData.voltage);
-            // Serial.printf("Current     : %.3f A\n", pzemData.current);
-            // Serial.printf("Power       : %.1f W\n", pzemData.power);
-            // Serial.printf("Energy      : %.0f Wh\n", pzemData.energy);
-            // Serial.printf("Frequency   : %.1f Hz\n", pzemData.frequency);
-            // Serial.printf("PowerFactor : %.2f\n", pzemData.pf);
-            // Serial.println("---------------------------");
+            Serial.println("PZEM Measurements:");
+            Serial.printf("Time        : %lu ms\n", millis());
+            Serial.printf("Voltage     : %.1f V\n", pzemData.voltage);
+            Serial.printf("Current     : %.3f A\n", pzemData.current);
+            Serial.printf("Power       : %.1f W\n", pzemData.power);
+            Serial.printf("Energy      : %.0f J\n", pzemData.energy);
+            Serial.printf("Frequency   : %.1f Hz\n", pzemData.frequency);
+            Serial.printf("PowerFactor : %.2f\n", pzemData.pf);
+            Serial.println("---------------------------");
         }
 
         vTaskDelay(pdMS_TO_TICKS(200));
