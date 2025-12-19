@@ -6,7 +6,7 @@
 #include <WiFi.h>
 #include <WiFiClientSecure.h>
 
-#define CURRENT_VERSION "1.3.1"
+#define CURRENT_VERSION "1.3.2"
 #define RELAY_PIN 13
 
 int state_LED = 0;
@@ -100,6 +100,13 @@ void checkForOTAUpdate() {
 
     http.end();
     Serial.println();
+}
+
+void taskOTA(void* pvParameters) {
+    while (true) {
+        checkForOTAUpdate();
+        vTaskDelay(pdMS_TO_TICKS(3600000));  // Cek setiap 1 jam
+    }
 }
 
 // === TAMBAHAN: Fungsi untuk reconnect MQTT ===
@@ -431,7 +438,7 @@ void setup() {
     state_LED = 1;  // LED berkedip menandakan koneksi WiFi berhasil
 
     // Cek OTA update
-    checkForOTAUpdate();
+    xTaskCreatePinnedToCore(taskOTA, "OTA Task", 8192, NULL, 1, NULL, 1);
     state_LED = 2;  // Matikan LED setelah cek OTA
     xTaskCreatePinnedToCore(TaskMQTT, "MQTT Task", 8192, NULL, 1, NULL, 0);
 
